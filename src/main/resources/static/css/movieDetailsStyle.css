@@ -1,0 +1,203 @@
+/* 폰트 시작 */
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* { font-family: 'NanumSquareNeo-Variable'; }
+/* 폰트 끝 */
+
+body { margin: 0; }
+a { text-decoration: none; color: black; }
+
+/* 네비게이션 바 시작 */
+.navbar {
+    position : fixed;
+    top : 0;
+    width : 100%;
+    display : flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightgray;
+    padding: 8px 12px;
+}
+
+.navbar__logo {
+    font-size: 24px;
+    color: white;
+}
+
+.navbar__logo i {
+    font-size: 26px;
+    color:black;
+}
+
+.navbar__menu {
+    display: flex;
+    list-style: none;
+    padding-left: 30px;
+}
+
+.navbar__menu li:hover {
+    background-color: gainsboro;
+    border-radius: 4px;
+}
+
+.navbar__menu li {
+    padding: 8px 12px;
+}
+
+.navbar__menu a {
+    text-decoration: none;
+    color: black;
+}
+/* 네비게이션 바 끝 */
+
+
+/** 영화 정보 시작 **/
+.movie-detail-title {
+    font-size: 50px;
+    display : grid;
+    align-items : center;
+    text-align: center;
+    margin-top: 110px;
+}
+
+.movie-detail {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin : auto 80px;
+  justify-content: center;
+}
+
+
+/*영화 포스터*/
+.movie-image {
+  flex-basis: 30%;
+  margin-right: 80px;
+}
+
+.movie-image img {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+
+.movie-info {
+    flex-basis: 70%;
+}
+
+/*영화 제목 + 버튼*/
+.movie-element {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.movie-title {
+  font-weight: bold;
+  font-size: 2em;
+  flex-basis: 70%;
+}
+
+.reserve-button {
+  display: block;
+  width: 150px;
+  margin: 10px;
+  padding: 10px;
+  background-color: #E50914;
+  color: #FFF;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  flex-basis: 15%;
+}
+.reserve-button:hover {
+  background-color: firebrick;
+}
+
+
+.review-button {
+    display: block;
+    width: 150px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid;
+    border-color: #E50914;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    flex-basis: 15%;
+}
+.review-button:hover {
+  background-color: #ffe4e1;
+}
+
+
+/*상세정보 리스트 + 줄거리*/
+.movie-info-list, .movie-plot {
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+
+
+.movie-info-list {
+    display: table;
+}
+
+.movie-info-list dl {
+    display: table-row;
+    line-height: 40px;
+}
+
+.movie-info-list dt {
+    display: table-cell;
+    max-width: 100px;
+    padding-right: 30px;
+    font-weight: normal;
+    color: #98989C;
+    white-space: nowrap;
+}
+
+.movie-info-list dd {
+    display: table-cell;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+
+/*관람등급 이미지*/
+.rating-img{
+    display: inline-block;
+    vertical-align: middle;
+    width: 30px;
+    max-width: 100%;
+    overflow: hidden;
+}
+.rating-img img {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: none;
+}
+
+
+/*줄거리*/
+.plot-title{
+    display: inline-block;
+}
+.plot-content{
+    display: inline-block;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: gainsboro;
+    padding: 10px
+}
+/** 영화 정보 끝 **/
+

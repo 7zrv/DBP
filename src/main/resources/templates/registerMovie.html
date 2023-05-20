@@ -20,7 +20,7 @@
         </div>
 
         <ul class="navbar__menu">
-            <li><a th:href="@{/movies}">홈</a></li>
+            <li><a th:href="@{/}">홈</a></li>
             <li><a th:href="@{/movies}">영화 목록</a></li>
             <li><a th:href="@{/movies/register}">영화 등록</a></li>
             <li><a th:href="@{/login}">로그인</a></li>
@@ -53,7 +53,12 @@
     </div>
     <div>
       <label for="rating">관람등급:</label>
-      <input type="text" id="rating" name="rating" required>
+        <select id="rating" name="rating" required>                                  <!--관람등급 입력창에서 선택창으로 변경-->
+            <option value="전체 관람가">전체 관람가</option>
+            <option value="12세 이상 관람가">12세 이상 관람가</option>
+            <option value="15세 이상 관람가">15세 이상 관람가</option>
+            <option value="청소년 관람불가">청소년 관람불가</option>
+        </select>
     </div>
     <div>
       <label for="releaseDate">개봉일:</label>

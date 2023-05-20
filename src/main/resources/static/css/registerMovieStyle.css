@@ -56,13 +56,17 @@ form {
     border-radius: 5px;
 }
 
-input[type="text"], input[type="number"], input[type="date"], input[type="file"] {
+input[type="text"], input[type="number"], input[type="date"], input[type="file"], select {
     width: 100%;
     padding: 8px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+}
+
+select {
+    display:block
 }
 
 button[type="submit"] {

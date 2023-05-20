@@ -1,110 +1,102 @@
 <!--영화 상세페이지-->
-<!--담당: -->
+<!--담당: 강지호-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-
   <meta charset="UTF-8">
-  <title th:text="${movie.title} + ' - Movie Detail'">Movie Detail</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #F9F9F9;
-    }
-    h1 {
-      text-align: center;
-      margin-top: 50px;
-    }
-    table {
-      width: 90%;
-      margin: 50px auto 0;
-      border-collapse: collapse;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-    }
-    th, td {
-      padding: 10px;
-      text-align: left;
-    }
-    th {
-      background-color: #555;
-      color: #FFF;
-    }
-    tr:nth-child(even) {
-      background-color: #F5F5F5;
-    }
-    img {
-      max-width: 100%;
-      display: block;
-      margin: 0 auto;
-    }
-    a {
-      color: #555;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    a:hover {
-      color: #000;
-    }
-    .movie-detail {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      margin-top: 50px;
-      justify-content: center; /* 추가된 코드 */
-    }
-    .movie-image {
-      flex-basis: 30%;
-      margin-right: 30px;
-    }
-    .movie-info {
-      flex-basis: 70%;
-    }
-    .movie-title {
-      font-weight: bold;
-      font-size: 2em;
-      margin-bottom: 10px;
-    }
-    .movie-genre, .movie-director, .movie-cast, .movie-runtime {
-      margin-bottom: 10px;
-      font-size: 1.1em;
-    }
-    .movie-bookmark {
-      display: block;
-      width: 150px;
-      margin-top: 20px;
-      padding: 10px;
-      background-color: #555;
-      color: #FFF;
-      text-align: center;
-      text-transform: uppercase;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    }
-    .movie-bookmark:hover {
-      background-color: #000;
-    }
-  </style>
+  <link rel="stylesheet" href="/css/movieDetailsStyle.css">
+  <script src="https://kit.fontawesome.com/9cc16459ac.js" crossorigin="anonymous"></script>
+  <title th:text="${movie.title} + ' - 영화 정보'">영화 정보</title>
 </head>
+
 <body>
-<h1>영화 정보</h1>
+<!-- 상단바 -->
+<nav class="navbar">
+  <div class="navbar__logo">
+    <i class="fa-solid fa-film"></i>
+    <a href="">졸업시켜조</a>
+  </div>
+
+  <ul class="navbar__menu">
+    <li><a th:href="@{/}">홈</a></li>
+    <li><a th:href="@{/movies}">영화 목록</a></li>
+    <li><a th:href="@{/movies/register}">영화 등록</a></li>
+    <li><a th:href="@{/login}">로그인</a></li>
+    <li><a th:href="@{/signup}">회원가입</a></li>
+  </ul>
+</nav>
+
+<h1 class="movie-detail-title">영화 정보</h1>
+
 <div class="movie-detail">
   <div class="movie-image">
-    <img th:src="@{${movie.getImgPath()}}" style="max-width: 100%; display: block; margin: 0 auto;">
+    <img th:src="@{${movie.getImgPath()}}" th:title="${movie.movie_id}">
   </div>
+
   <div class="movie-info">
-    <h2 class="movie-title" th:text="${movie.title}"></h2>
-    <p class="movie-director" th:text="'감독: ' + ${movie.director}"></p>
-    <p class="movie-cast" th:text="'출연배우: ' + ${movie.cast}"></p>
-    <p class="movie-genre" th:text="'장르: ' + ${movie.genre}"></p>
-    <p class="movie-cast" th:text="'관람등급: ' + ${movie.rating}"></p>
-    <p class="movie-runtime" th:text="'러닝타임: ' + ${movie.runtime} + ' 분'"></p>
-    <p class="movie-cast" th:text="'국가: ' + ${movie.country}"></p>
-    <p class="movie-cast" th:text="'개봉일: ' + ${movie.releaseDate}"></p>
-    <p class="movie-cast" th:text="'줄거리: ' + ${movie.plot}"></p>
-    <p class="movie-cast" th:text="'영화아이디: ' + ${movie.movie_id}"></p>
-    <a href="#" class="movie-bookmark">예매하기</a>
-    <a th:href="@{/movies/{id}/reviews/new(id=${movie.movie_id})}" class="button">한줄리뷰</a>
+    <div class="movie-element">
+      <h2 class="movie-title" th:text="${movie.title}"></h2>
+      <a href="@{/movies/reserve/{id}(id=${movie.movie_id})}" class="reserve-button">예매하기</a>
+      <a th:href="@{/movies/{id}/reviews/new(id=${movie.movie_id})}" class="review-button">한줄리뷰</a>
+    </div>
+
+    <div class="movie-info-list">
+      <dl class="movie-releaseDate">
+        <dt>개봉일</dt>
+        <dd th:text="${movie.releaseDate}"></dd>
+      </dl>
+      <dl class="movie-genre">
+        <dt>장르</dt>
+        <dd th:text="${movie.genre}"></dd>
+      </dl>
+      <dl class="movie-country">
+        <dt>국가</dt>
+        <dd th:text="${movie.country}"></dd>
+      </dl>
+      <dl class="movie-rating">
+        <dt>관람등급</dt>
+        <dd>
+          <span class="rating-img">
+            <img id="rating-image" src="https://i.namu.wiki/i/ALP5h0vSn2ZH8w1dACZl_WRD9wdTK-cFqK5pazmGgUtAUhy6h7CLZRmr4NYNqdc38H4lfyknXVlW5duiTC-9RdLf5T02jNDr73o-FUkuajfV4ABSWTHdSOhuOhkCdaPLeHudARk3U6DbEOjMpw14MQ.svg" alt="(영등위 관람등급)">
+          </span>
+          <span id="rating-v" class="rating-value" th:text="${movie.rating}"></span>
+          <!--관람등급에 따라 해당하는 관람등급 이미지 불러옴-->
+          <script>
+            switch(document.getElementById("rating-v").innerHTML) {
+                case "전체 관람가":
+                    document.getElementById("rating-image").src = "https://i.namu.wiki/i/1wEPqFe2PBK--SFPtclHb2KKUdfb6H0kO73i17m3nm38PbmbnpZpBPr15pN0FFdyGqz-E7OgEMrJ09XAvt_H-l0G4yOGSD_Yjcvm6xEC-GvN3-EESgZb2vR8HJW0C-RoyY0OoHBj23eCoIbhuJFyIA.svg";
+                    break;
+                case "12세 이상 관람가":
+                    document.getElementById("rating-image").src = "https://i.namu.wiki/i/wtYIZRcBXvy75MW0fGhc-itp1lKh5B-1X_5c9OfNk20CjDtyeZ8CTXHMjqwCnLyhRcWiGT4ynsPAENpxN8TfOJVnoumbCL1EkaA4Pn8gc33OXS81kt02zqHkxfe2nV4X7NMx4ZBeAfq0WBM_ychTFA.svg";
+                    break;
+                case "15세 이상 관람가":
+                    document.getElementById("rating-image").src = "https://i.namu.wiki/i/XSDIGhgNKZoVlX9147BcVXJm8DZFUhlEMzcNfJShJcsA5tZDReA9FKzEyhuzoGVhrDfy2dPDeX_QDA9pvoRD7GAJjz_bL0qbiloJcMKcUzonDazHshjHQlUV012sKnckuaTM22VS_CBwFbAMgDrsxg.svg";
+                    break;
+            }
+          </script>
+        </dd>
+      </dl>
+      <dl class="movie-runtime">
+        <dt>러닝타임</dt>
+        <dd th:text="${movie.runtime} + '분'"></dd>
+      </dl>
+      <dl class="movie-director">
+        <dt>감독</dt>
+        <dd th:text="${movie.director}"></dd>
+      </dl>
+      <dl class="movie-cast">
+        <dt>출연배우</dt>
+        <dd th:text="${movie.cast}"></dd>
+      </dl>
+    </div>
+
+    <div class="movie-plot">
+      <p class="plot-title">줄거리</p>
+      <span class="plot-content" th:text="${movie.plot}"></span>
+    </div>
+
   </div>
 </div>
+
 </body>
 </html>
