@@ -1,73 +1,103 @@
 package exam.demo.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import exam.demo.dto.MemberDto;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
-@AllArgsConstructor
+@Getter
 @Data
 @Entity
 @Table(name = "MEMBER")
-public class Member {
+public class Member implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="member_ID")
     private Long member_id;
 
-    @Column(name = "NAME", nullable = false, length = 15)
-    private String name;
+    @Column(nullable = false, unique = true)
+    private String userName;
 
-    @Column(name = "PASSWORD", nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "EMAIL", nullable = false)
+    @Column(nullable = false)
     private String email;
 
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
-
-    public Long getMember_id() {
-        return member_id;
+    public Member(String user_name, String password, String email )
+    {
+        this.userName = user_name;
+        this.password = password;
+        this.email = email;
+        this.roleType = RoleType.USER;
     }
 
-    public void setMember_id(Long member_id) {
-        this.member_id = member_id;
+    public Member(MemberDto memberDto)
+    {
+        this.userName = memberDto.getUserName();
+        this.password = memberDto.getPassword();
+        this.email = memberDto.getEmail();
+        this.roleType = RoleType.USER;
     }
 
-    public String getName() {
-        return name;
+    public void updatePassword(String newPassword) {
+        this.password = newPassword;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<RoleType> roles = Arrays.asList(RoleType.USER, RoleType.ADMIN);
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
+                .collect(Collectors.toList());
     }
 
+    @Override
+    public String getUsername() {
+        return userName;
+    }
+
+    @Override
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public boolean isEnabled() {
+        // 사용자 계정이 활성화되어 있다고 가정합니다.
+        return true;
     }
 
-    public String getEmail() {
-        return email;
+    @Override
+    public boolean isAccountNonExpired() {
+        // 사용자 계정이 만료되지 않았다고 가정합니다.
+        return true;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public boolean isAccountNonLocked() {
+        // 사용자 계정이 잠겨있지 않다고 가정합니다.
+        return true;
     }
 
-    public RoleType getRoleType() {
-        return roleType;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // 사용자의 인증 정보가 만료되지 않았다고 가정합니다.
+        return true;
     }
 
-    public void setRoleType(RoleType roleType) {
-        this.roleType = roleType;
-    }
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>My Page</title>
+</head>
+<body>
+<h1>Welcome to My Page</h1>
+<p>Username: <span th:text="${member.username}"></span></p>
+<p>Email: <span th:text="${member.email}"></span></p>
+
+
+
+
+<a th:href="@{/withdraw}" onclick="return confirm('정말로 회원 탈퇴하시겠습니까?')">회원 탈퇴</a>
+
+<form th:action="@{/changePassword}" method="post">
+  <label for="currentPassword">Current Password:</label>
+  <input type="password" id="currentPassword" name="currentPassword"><br>
+
+  <label for="newPassword">New Password:</label>
+  <input type="password" id="newPassword" name="newPassword"><br>
+
+  <input type="submit" value="Change Password">
+</form>
+
+
+</body>
+</html>
