@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Configuration
 public class SecurityConfig {
     @Bean
@@ -19,6 +21,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/user/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/movies/register").hasRole("ADMIN")
                 .anyRequest().permitAll()
 
                 .and()
@@ -26,12 +29,18 @@ public class SecurityConfig {
                 .loginPage("/login")
                 .loginProcessingUrl("/loginProc")
                 .failureUrl("/login/error")
-                .defaultSuccessUrl("/")
+                .successHandler((request, response, authentication) -> {
+                    request.getSession().setAttribute("loggedIn", true);
+                    response.sendRedirect("/");
+                })
 
                 .and()
                 .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
+                .logoutSuccessHandler((request, response, authentication) -> {
+                    request.getSession().removeAttribute("loggedIn");
+                    response.sendRedirect(getRedirectUrl(request));
+                })
 
                 .and()
                 .sessionManagement()
@@ -49,5 +58,13 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    private String getRedirectUrl(HttpServletRequest request) {
+        String referer = request.getHeader("Referer"); // 이전 페이지의 URL 가져오기
+        if (referer != null) {
+            return referer;
+        }
+        return "/"; // 이전 페이지의 URL이 없으면 기본적으로 홈 페이지로 리다이렉트
     }
 }

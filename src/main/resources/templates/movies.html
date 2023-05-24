@@ -2,46 +2,58 @@
 <!--담당: 남동현 -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/css/movieStyle.css">
-        <script src="https://kit.fontawesome.com/9cc16459ac.js" crossorigin="anonymous"></script>
-        <title>영화 목록</title>
-    </head>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/movieStyle.css">
+    <script src="https://kit.fontawesome.com/9cc16459ac.js" crossorigin="anonymous"></script>
+    <title>영화 목록</title>
+</head>
 <body>
 
 <!-- 상단바 -->
-    <nav class="navbar">
-        <div class="navbar__logo">
-            <i class="fa-solid fa-film"></i>
-            <a href="">졸업시켜조</a>
-        </div>
+<nav class="navbar">
+    <div class="navbar__logo">
+        <i class="fa-solid fa-film"></i>
+        <a href="">졸업시켜조</a>
+    </div>
 
-        <ul class="navbar__menu">
-            <li><a th:href="@{/movies}">홈</a></li>
-            <li><a th:href="@{/movies}">영화 목록</a></li>
-            <li><a th:href="@{/movies/register}">영화 등록</a></li>
-            <li><a th:href="@{/login}">로그인</a></li>
-            <li><a th:href="@{/signup}">회원가입</a></li>
-        </ul>
-    </nav>
+    <ul class="navbar__menu">
+        <li><a th:href="@{/movies}">홈</a></li>
+        <li><a th:href="@{/movies}">영화 목록</a></li>
+        <li th:if="${#request.isUserInRole('ADMIN')}">
+            <a th:href="@{/movies/register}">영화 등록</a>
+        </li>
 
-    <h2 class="movie-list-title">영화 목록</h2>
+
+        <li th:if="${session.loggedIn}"><a th:href="@{/logout}">로그아웃</a></li>
+        <li th:unless="${session.loggedIn}"><a th:href="@{/login}">로그인</a></li>
+        <li><a th:href="@{/signup}">회원가입</a></li>
+    </ul>
+</nav>
+
+<h2 class="movie-list-title">영화 목록</h2>
 
 <!-- 영화정보 박스 -->
-<div class="movie-container">
+<div class="container">
+    <div class="movie-container">
+        <div class="movie-row">
             <div th:each="movie : ${movies}" class="movie-box">
                 <div class="movie-poster">
-                    <img class="poster" th:src="@{${movie.getImgPath()}}" alt="영화 포스터">
+                    <div class="poster-ratio">
+                        <img class="poster "th:src="@{${'/files/' + movie.getImgName()}}" th:title="${movie.movie_id}" alt="">
+                    </div>
                 </div>
                 <h2 class="movie-title"><a th:href="@{/movies/{id}(id=${movie.movie_id})}" th:text="${movie.title}">제목</a></h2>
                 <div class="buttons">
                     <a th:href="@{/movies/reserve/{id}(id=${movie.movie_id})}" class="reserve-button">예매하기</a>
-            <a th:href="@{/movies/{id}(id=${movie.movie_id})}" class="details-button">상세보기</a>
+                    <a th:href="@{/movies/{id}(id=${movie.movie_id})}" class="details-button">상세보기</a>
+                </div>
+            </div>
         </div>
     </div>
-
+</div>
 </div></body>
 </html>

@@ -1,5 +1,6 @@
 package exam.demo.service;
 
+import exam.demo.dto.MovieDto;
 import exam.demo.entity.Movie;
 import exam.demo.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,28 +21,17 @@ public class MovieService {
     private MovieRepository movieRepository;
 
     public void registerMovie(Movie movie, MultipartFile imgFile) throws IOException {
-
-        String oriImgName = imgFile.getOriginalFilename();
-        String imgName = "";
-
-        String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/files/";
-
-        // UUID 를 이용하여 파일명 새로 생성
-        // UUID - 서로 다른 객체들을 구별하기 위한 클래스
-        UUID uuid = UUID.randomUUID();
-
-        String savedFileName = uuid + "_" + oriImgName; // 파일명 -> imgName
-
-        imgName = savedFileName;
-
-        File saveFile = new File(projectPath, imgName);
-
-        imgFile.transferTo(saveFile);
-
-        movie.setImgName(imgName);
-        movie.setImgPath("/files/" + imgName);
-
+        uploadImageFile(movie, imgFile);
         movieRepository.save(movie);
+    }
+
+    public void modifyMovie(Movie movie, MovieDto movieDto, MultipartFile imgFile) throws IOException {
+        uploadImageFile(movie, imgFile);
+        movie.updateMovie(movieDto);
+    }
+
+    public void deleteMovie(Movie movie){
+        movieRepository.delete(movie);
     }
 
     public List<Movie> getAllMovies() {
@@ -50,6 +40,25 @@ public class MovieService {
     public Movie getMovieById(Long id) {
         return movieRepository.findById(id).orElse(null);
     }
+
+    public void uploadImageFile(Movie movie, MultipartFile imgFile) throws IOException {
+        String oriImgName = imgFile.getOriginalFilename();
+        String imgName = "";
+        String imgPath = "";
+
+        //본인의 이미지 파일 업로드 경로를 입력해주세요.
+        String projectPath = "/Users/yunseojin/projectImgFolder/";
+
+        UUID uuid = UUID.randomUUID();
+        String savedFileName = uuid + "_" + oriImgName;
+        imgName = savedFileName;
+        imgPath = "/files/" + projectPath + savedFileName;
+        File saveFile = new File(projectPath, savedFileName);
+
+        imgFile.transferTo(saveFile);
+        movie.uploadImage(imgPath, imgName);
+    }
+
 }
 
 

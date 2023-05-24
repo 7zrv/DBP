@@ -1,0 +1,121 @@
+<!--영화등록 페이지-->
+<!--담당: 남동현 -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/registerMovieStyle.css">
+  <script src="https://kit.fontawesome.com/9cc16459ac.js" crossorigin="anonymous"></script>
+  <title>영화 등록</title>
+</head>
+
+<!-- 상단바 -->
+<body>
+<nav class="navbar">
+  <div class="navbar__logo">
+    <i class="fa-solid fa-film"></i>
+    <a th:href="@{/movies}">졸업시켜조</a>
+  </div>
+  <ul class="navbar__menu">
+    <li><a th:href="@{/movies}">홈</a></li>
+    <li><a th:href="@{/movies}">영화 목록</a></li>
+    <li><a th:href="@{/movies/register}">영화 등록</a></li>
+    <li th:if="${session.loggedIn}"><a th:href="@{/logout}">로그아웃</a></li>
+    <li th:unless="${session.loggedIn}"><a th:href="@{/login}">로그인</a></li>
+    <li><a th:href="@{/signup}">회원가입</a></li>
+  </ul>
+</nav>
+</body>
+<!-- 등록 폼 -->
+
+<form method="POST" th:action="@{'/movies/' + ${movie.movie_id} + '/modify'}" enctype="multipart/form-data">
+  <!-- Title -->
+  <div class="form-row">
+    <label for="title">제목:</label>
+    <input type="text" id="title" name="title" required th:value="${movie.title}">
+  </div>
+  <!-- Director -->
+  <div class="form-row">
+    <label for="director">감독:</label>
+    <div class="input-container">
+      <input type="text" id="director" name="director" required th:value="${movie.director}">
+    </div>
+  </div>
+  <!-- Cast -->
+  <div class="form-row">
+    <label for="cast">출연배우:</label>
+    <div class="input-container">
+      <input type="text" id="cast" name="cast" required th:value="${movie.cast}">
+    </div>
+  </div>
+  <!-- Genre -->
+  <div class="form-row">
+    <label for="genre">장르:</label>
+    <select id="genre" name="genre" required>
+      <option value="액션" th:selected="${movie.genre == '액션'}">액션</option>
+      <option value="SF" th:selected="${movie.genre == 'SF'}">SF</option>
+      <option value="코미디" th:selected="${movie.genre == '코미디'}">코미디</option>
+      <option value="스릴러" th:selected="${movie.genre == '스릴러'}">스릴러</option>
+      <option value="드라마" th:selected="${movie.genre == '드라마'}">드라마</option>
+    </select>
+  </div>
+  <!-- Runtime -->
+  <div class="form-row">
+    <label for="runtime">상영시간:</label>
+    <div class="input-container">
+      <input type="number" id="runtime" name="runtime" required th:value="${movie.runtime}">
+      <span class="input-unit">분</span>
+    </div>
+  </div>
+  <!-- Rating -->
+  <div class="form-row">
+    <label for="rating">관람등급:</label>
+    <select id="rating" name="rating" required>
+      <option value="전체 관람가" th:selected="${movie.rating == '전체 관람가'}">전체 관람가</option>
+      <option value="12세 관람가" th:selected="${movie.rating == '12세 관람가'}">12세 관람가</option>
+      <option value="15세 관람가" th:selected="${movie.rating == '15세 관람가'}">15세 관람가</option>
+      <option value="청소년 관람불가" th:selected="${movie.rating == '청소년 관람불가'}">청소년 관람불가</option>
+    </select>
+  </div>
+  <!-- Release Date -->
+  <div class="form-row">
+    <label for="releaseDate">개봉일:</label>
+    <div class="input-container">
+      <input type="date" id="releaseDate" name="releaseDate" required>
+    </div>
+  </div>
+  <!-- Country -->
+  <div class="form-row">
+    <label for="country">국가:</label>
+    <select id="country" name="country" required>
+      <option value="미국" th:selected="${movie.country == '미국'}">미국</option>
+      <option value="한국" th:selected="${movie.country == '한국'}">한국</option>
+      <option value="일본" th:selected="${movie.country == '일본'}">일본</option>
+      <option value="중국" th:selected="${movie.country == '중국'}">중국</option>
+      <option value="대만" th:selected="${movie.country == '대만'}">대만</option>
+      <option value="영국" th:selected="${movie.country == '영국'}">영국</option>
+      <option value="프랑스" th:selected="${movie.country == '프랑스'}">프랑스</option>
+      <option value="독일" th:selected="${movie.country == '독일'}">독일</option>
+      <option value="인도" th:selected="${movie.country == '인도'}">인도</option>
+    </select>
+  </div>
+  <!-- Plot -->
+  <div class="form-row">
+    <label for="plot">줄거리:</label><br>
+    <textarea id="plot" name="plot" rows="5" cols="141" required th:value="${movie.plot}"></textarea>
+  </div>
+  <!-- Image File -->
+  <div class="form-row">
+    <label class="form-label">영화 이미지 업로드</label>
+    <input type="file" class="form-control" id="imgFile" name="imgFile">
+  </div>
+  <!-- Submit Button -->
+  <div class="button-container">
+    <button type="submit">수정하기</button>
+  </div>
+</form>
+
+
+</html>

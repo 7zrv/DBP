@@ -10,8 +10,6 @@
 <p>Email: <span th:text="${member.email}"></span></p>
 
 
-
-
 <a th:href="@{/withdraw}" onclick="return confirm('정말로 회원 탈퇴하시겠습니까?')">회원 탈퇴</a>
 
 <form th:action="@{/changePassword}" method="post">

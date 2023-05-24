@@ -1,6 +1,7 @@
 package exam.demo.controller;
 
 
+import exam.demo.dto.MovieDto;
 import exam.demo.entity.Movie;
 import exam.demo.entity.Review;
 import exam.demo.service.MovieService;
@@ -29,14 +30,8 @@ public class MovieController {
     public String showAllMovies(Model model) {
         List<Movie> movies = movieService.getAllMovies();
         model.addAttribute("movies", movies);
-        return "movies";
-    }
 
-    @GetMapping("/movies/{id}")
-    public String showMovieDetails(@PathVariable Long id, Model model) {
-        Movie movie = movieService.getMovieById(id);
-        model.addAttribute("movie", movie);
-        return "movieDetails";
+        return "movies";
     }
 
     @GetMapping("/movies/register")
@@ -46,8 +41,39 @@ public class MovieController {
     }
 
     @PostMapping("/movies/register")
-    public String registerMovie(@ModelAttribute Movie movie, MultipartFile imgFile) throws IOException {
+    public String registerMovie(@ModelAttribute MovieDto movieDto, MultipartFile imgFile) throws IOException {
+        Movie movie = new Movie(movieDto);
         movieService.registerMovie(movie, imgFile);
+
+        return "redirect:/movies";
+    }
+
+    @GetMapping("/movies/{id}")
+    public String showMovieDetails(@PathVariable Long id, Model model) {
+        Movie movie = movieService.getMovieById(id);
+        model.addAttribute("movie", movie);
+
+        return "movieDetails";
+    }
+
+    @GetMapping("/movies/{id}/modify")
+    public String showModifyMovie(@PathVariable Long id, Model model) {
+        Movie movie = movieService.getMovieById(id);
+        model.addAttribute("movie", movie);
+        return "modifyMovie";
+    }
+
+    @PostMapping("/movies/{id}/modify")
+    public String modifyMovie(@ModelAttribute MovieDto movieDto, MultipartFile imgFile, @PathVariable("id") Long id) throws IOException {
+        Movie movie = movieService.getMovieById(id);
+        movieService.modifyMovie(movie, movieDto, imgFile);
+        return "redirect:/movies";
+    }
+
+    @GetMapping("/movies/{id}/delete")
+    public String deleteMovie(@PathVariable Long id, Model model) {
+        Movie movie = movieService.getMovieById(id);
+        movieService.deleteMovie(movie);
         return "redirect:/movies";
     }
 

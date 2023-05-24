@@ -1,5 +1,6 @@
 package exam.demo.entity;
 
+import exam.demo.dto.MovieDto;
 import lombok.*;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.web.multipart.MultipartFile;
@@ -8,11 +9,10 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @NoArgsConstructor
+@Getter
 @Data
 @Entity
 public class Movie {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long movie_id;
@@ -28,102 +28,33 @@ public class Movie {
     private String ImgPath;
     private String ImgName;
 
-    // getters and setters
-    public String getImgPath() {
-        return ImgPath;
+    public void uploadImage(String ImgPath, String ImgName) {
+        this.ImgPath = ImgPath;
+        this.ImgName = ImgName;
     }
 
-    public void setImgPath(String imgPath) {
-        ImgPath = imgPath;
+    public Movie(MovieDto movieDto){
+        this.title = movieDto.getTitle();
+        this.director = movieDto.getDirector();
+        this.cast = movieDto.getCast();
+        this.genre = movieDto.getGenre();
+        this.runtime = movieDto.getRuntime();
+        this.rating = movieDto.getRating();
+        this.releaseDate = movieDto.getReleaseDate();
+        this.country = movieDto.getCountry();
+        this.plot = movieDto.getPlot();
     }
 
-    public String getImgName() {
-        return ImgName;
+    public void updateMovie(MovieDto movieDto){
+        this.title = movieDto.getTitle();
+        this.director = movieDto.getDirector();
+        this.cast = movieDto.getCast();
+        this.genre = movieDto.getGenre();
+        this.runtime = movieDto.getRuntime();
+        this.rating = movieDto.getRating();
+        this.releaseDate = movieDto.getReleaseDate();
+        this.country = movieDto.getCountry();
+        this.plot = movieDto.getPlot();
     }
 
-    public void setImgName(String imgName) {
-        ImgName = imgName;
-    }
-
-
-    public Long getMovie_id() {
-        return movie_id;
-    }
-
-    public void setMovie_id(Long movie_id) {
-        this.movie_id = movie_id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
-    }
-
-    public String getCast() {
-        return cast;
-    }
-
-    public void setCast(String cast) {
-        this.cast = cast;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public String getRuntime() {
-        return runtime;
-    }
-
-    public void setRuntime(String runtime) {
-        this.runtime = runtime;
-    }
-
-    public String getRating() {
-        return rating;
-    }
-
-    public void setRating(String rating) {
-        this.rating = rating;
-    }
-
-    public String getReleaseDate() {
-        return releaseDate;
-    }
-
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getPlot() {
-        return plot;
-    }
-
-    public void setPlot(String plot) {
-        this.plot = plot;
-    }
 }
-

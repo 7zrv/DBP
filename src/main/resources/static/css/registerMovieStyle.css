@@ -50,23 +50,40 @@ a { text-decoration: none; color: black; }
 /* 내용 작성폼 시작 */
 form {
     margin: 50px auto;
-    max-width: 1080px;
+    max-width: 600px;
+    width: 80%;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-input[type="text"], input[type="number"], input[type="date"], input[type="file"], select {
-    width: 100%;
+.form-row {
+    display: flex;
+    align-items: center; /* 수정 */
+    margin-bottom: 10px;
+}
+
+form label {
+    width: 120px;
+    margin-right: 10px;
+    text-align: right; /* 수정 */
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="file"],
+textarea {
+    flex: 1;
     padding: 8px;
-    margin-bottom: 20px;
+    margin-right: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
 }
 
-select {
-    display:block
+label.form-label {
+    font-size: 14px;
 }
 
 button[type="submit"] {
@@ -84,9 +101,82 @@ button[type="submit"]:hover {
     color: white;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
 /* 이미지 삽입 폼 */
 .col-12 {
     padding-top: 20px;
+}
+
+/* 상영시간 폼 조정 */
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-row label {
+    width: 120px;
+    margin-right: 10px;
+    text-align: right;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+}
+
+.input-container input[type="number"] {
+    width: 70px;
+    padding: 8px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-row .input-unit {
+    font-size: 14px;
+    color: #888;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-row label {
+    width: 120px;
+    margin-right: 10px;
+    text-align: right;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+}
+
+.input-container input[type="text"] {
+    width: 150px; /* 감독, 출연배우 입력창 너비 조정 */
+    padding: 8px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.input-container input[type="date"] {
+    width: 140px; /* 개봉일 입력창 너비 조정 */
+    padding: 8px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 /* 내용 작성폼 끝 */

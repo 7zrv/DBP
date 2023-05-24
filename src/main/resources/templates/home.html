@@ -69,9 +69,10 @@
 <div id="header">
   <h1>DBP 팀플</h1>
   <div class="btn-group">
-    <form method="get" action="/login">
-      <button type="submit">로그인</button>
-    </form>
+
+      <li th:if="${session.loggedIn}"><a th:href="@{/logout}">로그아웃</a></li>
+      <li th:unless="${session.loggedIn}"><a th:href="@{/login}">로그인</a></li>
+
     <form method="get" action="/signup">
       <button type="submit">회원가입</button>
     </form>

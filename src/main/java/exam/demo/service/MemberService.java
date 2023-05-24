@@ -21,9 +21,9 @@ public class MemberService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     //회원가입 메서드
-    public Member saveMember(Member member){
+    public void saveMember(Member member){
         validateDuplicateMember(member);
-        return memberRepository.save(member);
+        memberRepository.save(member);
     }
 
     //중복확인 메서드
