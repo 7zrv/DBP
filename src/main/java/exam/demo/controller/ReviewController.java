@@ -1,30 +1,33 @@
 package exam.demo.controller;
 
+import exam.demo.dto.ReviewDto;
+import exam.demo.entity.Member;
 import exam.demo.entity.Movie;
 import exam.demo.entity.Review;
+import exam.demo.service.MemberService;
 import exam.demo.service.MovieService;
 import exam.demo.service.ReviewService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/movies")
 public class ReviewController {
 
     private final MovieService movieService;
     private final ReviewService reviewService;
-
-    @Autowired
-    public ReviewController(MovieService movieService, ReviewService reviewService) {
-        this.movieService = movieService;
-        this.reviewService = reviewService;
-    }
+    private final MemberService memberService;
 
     @GetMapping("/reviews")
     public String showAllReview(Model model) {
@@ -41,12 +44,41 @@ public class ReviewController {
     }
 
     @PostMapping("/{id}/reviews/new")
-    public String createReview(@PathVariable("id") Long id, @ModelAttribute Review review) {
+    public String createReview(@PathVariable("id") Long movieId, ReviewDto reviewDto, Principal principal) throws IOException {
+        Member member = memberService.getMemberByUsername(principal.getName());
 
-        review.setMovie(id);
+        Review review = new Review(reviewDto);
+        review.updateIds(member.getMember_id(), movieId);
 
         reviewService.createReview(review);
-        return "redirect:/movies/{id}";
+        return "redirect:/movies/" + movieId;
     }
 
+    @GetMapping("/{id}/reviews/{reviewId}/modify")
+    public String showModifyReviewForm(@PathVariable("id") Long id, @PathVariable("reviewId") Long reviewId, Model model) {
+        Movie movie = movieService.getMovieById(id);
+        Review review = reviewService.getReviewById(reviewId);
+
+        model.addAttribute("movie", movie);
+        model.addAttribute("review", review);
+        return "modify_review_form";
+    }
+
+    @PostMapping("/{id}/reviews/{reviewId}/modify")
+    public String modifyReview(@PathVariable("id") Long movieId, @PathVariable("reviewId") Long reviewId, ReviewDto reviewDto) throws IOException {
+        Review review = reviewService.getReviewById(reviewId);
+        reviewService.modifyReview(review, reviewDto);
+        return "redirect:/movies/" + movieId;
+    }
+
+    @GetMapping("/{movieId}/reviews/{reviewId}/delete")
+    public String deleteReview(@PathVariable("movieId") Long movieId, @PathVariable("reviewId") Long reviewId, Model model) {
+        Review review = reviewService.getReviewById(reviewId);
+        reviewService.deleteReview(review);
+        return "redirect:/movies/" + movieId;
+    }
+
+
 }
+
+

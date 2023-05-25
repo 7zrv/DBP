@@ -9,6 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-
-
+    List<Review> findByMovieId(Long movieId);
 }

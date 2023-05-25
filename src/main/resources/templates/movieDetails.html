@@ -3,106 +3,129 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="/css/movieDetailsStyle.css">
-  <script src="https://kit.fontawesome.com/9cc16459ac.js" crossorigin="anonymous"></script>
-  <title th:text="${movie.title} + ' - 영화 정보'">영화 정보</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/movieDetailsStyle.css">
+    <script src="https://kit.fontawesome.com/9cc16459ac.js" crossorigin="anonymous"></script>
+    <title th:text="${movie.title} + ' - 영화 정보'">영화 정보</title>
 </head>
 
 <body>
 <!-- 상단바 -->
 <nav class="navbar">
-  <div class="navbar__logo">
-    <i class="fa-solid fa-film"></i>
-    <a href="">졸업시켜조</a>
-  </div>
+    <div class="navbar__logo">
+        <i class="fa-solid fa-film"></i>
+        <a href="">졸업시켜조</a>
+    </div>
 
-  <ul class="navbar__menu">
-    <li><a th:href="@{/}">홈</a></li>
-    <li><a th:href="@{/movies}">영화 목록</a></li>
-    <li th:if="${#request.isUserInRole('ADMIN')}">
-      <a th:href="@{/movies/register}">영화 등록</a>
-    </li>
-    <li th:if="${session.loggedIn}"><a th:href="@{/logout}">로그아웃</a></li>
-    <li th:unless="${session.loggedIn}"><a th:href="@{/login}">로그인</a></li>
-    <li><a th:href="@{/signup}">회원가입</a></li>
-  </ul>
+    <ul class="navbar__menu">
+        <li><a th:href="@{/}">홈</a></li>
+        <li><a th:href="@{/movies}">영화 목록</a></li>
+        <li th:if="${#request.isUserInRole('ADMIN')}">
+            <a th:href="@{/movies/register}">영화 등록</a>
+        </li>
+        <li th:if="${session.loggedIn}"><a th:href="@{/logout}">로그아웃</a></li>
+        <li th:unless="${session.loggedIn}"><a th:href="@{/login}">로그인</a></li>
+        <li><a th:href="@{/signup}">회원가입</a></li>
+    </ul>
 </nav>
 
 <h1 class="movie-detail-title">영화 정보</h1>
 
 <div class="movie-detail">
-  <div class="movie-image">
-    <img th:src="@{${'/files/' + movie.getImgName()}}" th:title="${movie.movie_id}" alt="">
-  </div>
-
-  <div class="movie-info">
-    <div class="movie-element">
-      <h2 class="movie-title" th:text="${movie.title}"></h2>
-      <a href="@{/movies/reserve/{id}(id=${movie.movie_id})}" class="reserve-button">예매하기</a>
-      <a th:href="@{/movies/{id}/reviews/new(id=${movie.movie_id})}" class="review-button">한줄리뷰</a>
-      <a th:href="@{/movies/{id}/delete(id=${movie.movie_id})}" class="review-button">영화삭제</a>
-      <a th:href="@{/movies/{id}/modify(id=${movie.movie_id})}" class="review-button">영화정보 수정</a>
-
+    <div class="movie-image">
+        <img th:src="@{${'/files/' + movie.getImgName()}}" th:title="${movie.movie_id}" alt="">
     </div>
 
-    <div class="movie-info-list">
-      <dl class="movie-releaseDate">
-        <dt>개봉일</dt>
-        <dd th:text="${movie.releaseDate}"></dd>
-      </dl>
-      <dl class="movie-genre">
-        <dt>장르</dt>
-        <dd th:text="${movie.genre}"></dd>
-      </dl>
-      <dl class="movie-country">
-        <dt>국가</dt>
-        <dd th:text="${movie.country}"></dd>
-      </dl>
-      <dl class="movie-rating">
-        <dt>관람등급</dt>
-        <dd>
+    <div class="movie-info">
+        <div class="movie-element">
+            <h2 class="movie-title" th:text="${movie.title}"></h2>
+            <a href="@{/movies/reserve/{id}(id=${movie.movie_id})}" class="reserve-button">예매하기</a>
+            <a th:href="@{/movies/{id}/reviews/new(id=${movie.movie_id})}" class="review-button">한줄리뷰</a>
+            <a th:href="@{/movies/{id}/delete(id=${movie.movie_id})}" th:if="${#request.isUserInRole('ADMIN')}" class="review-button">영화삭제</a>
+            <a th:href="@{/movies/{id}/modify(id=${movie.movie_id})}" th:if="${#request.isUserInRole('ADMIN')}" class="review-button">영화정보 수정</a>
+
+        </div>
+
+        <div class="movie-info-list">
+            <dl class="movie-releaseDate">
+                <dt>개봉일</dt>
+                <dd th:text="${movie.releaseDate}"></dd>
+            </dl>
+            <dl class="movie-genre">
+                <dt>장르</dt>
+                <dd th:text="${movie.genre}"></dd>
+            </dl>
+            <dl class="movie-country">
+                <dt>국가</dt>
+                <dd th:text="${movie.country}"></dd>
+            </dl>
+            <dl class="movie-rating">
+                <dt>관람등급</dt>
+                <dd>
           <span class="rating-img">
             <img id="rating-image" src="https://i.namu.wiki/i/ALP5h0vSn2ZH8w1dACZl_WRD9wdTK-cFqK5pazmGgUtAUhy6h7CLZRmr4NYNqdc38H4lfyknXVlW5duiTC-9RdLf5T02jNDr73o-FUkuajfV4ABSWTHdSOhuOhkCdaPLeHudARk3U6DbEOjMpw14MQ.svg" alt="(영등위 관람등급)">
           </span>
-          <span id="rating-v" class="rating-value" th:text="${movie.rating}"></span>
-          <!--관람등급에 따라 해당하는 관람등급 이미지 불러옴-->
-          <script>
-            switch(document.getElementById("rating-v").innerHTML) {
-              case "전체 관람가":
-                document.getElementById("rating-image").src = "https://i.namu.wiki/i/1wEPqFe2PBK--SFPtclHb2KKUdfb6H0kO73i17m3nm38PbmbnpZpBPr15pN0FFdyGqz-E7OgEMrJ09XAvt_H-l0G4yOGSD_Yjcvm6xEC-GvN3-EESgZb2vR8HJW0C-RoyY0OoHBj23eCoIbhuJFyIA.svg";
-                break;
-              case "12세 이상 관람가":
-                document.getElementById("rating-image").src = "https://i.namu.wiki/i/wtYIZRcBXvy75MW0fGhc-itp1lKh5B-1X_5c9OfNk20CjDtyeZ8CTXHMjqwCnLyhRcWiGT4ynsPAENpxN8TfOJVnoumbCL1EkaA4Pn8gc33OXS81kt02zqHkxfe2nV4X7NMx4ZBeAfq0WBM_ychTFA.svg";
-                break;
-              case "15세 이상 관람가":
-                document.getElementById("rating-image").src = "https://i.namu.wiki/i/XSDIGhgNKZoVlX9147BcVXJm8DZFUhlEMzcNfJShJcsA5tZDReA9FKzEyhuzoGVhrDfy2dPDeX_QDA9pvoRD7GAJjz_bL0qbiloJcMKcUzonDazHshjHQlUV012sKnckuaTM22VS_CBwFbAMgDrsxg.svg";
-                break;
-            }
-          </script>
-        </dd>
-      </dl>
-      <dl class="movie-runtime">
-        <dt>러닝타임</dt>
-        <dd th:text="${movie.runtime} + '분'"></dd>
-      </dl>
-      <dl class="movie-director">
-        <dt>감독</dt>
-        <dd th:text="${movie.director}"></dd>
-      </dl>
-      <dl class="movie-cast">
-        <dt>출연배우</dt>
-        <dd th:text="${movie.cast}"></dd>
-      </dl>
-    </div>
+                    <span id="rating-v" class="rating-value" th:text="${movie.rating}"></span>
+                    <!--관람등급에 따라 해당하는 관람등급 이미지 불러옴-->
+                    <script>
+                        switch(document.getElementById("rating-v").innerHTML) {
+                            case "전체 관람가":
+                                document.getElementById("rating-image").src = "https://i.namu.wiki/i/1wEPqFe2PBK--SFPtclHb2KKUdfb6H0kO73i17m3nm38PbmbnpZpBPr15pN0FFdyGqz-E7OgEMrJ09XAvt_H-l0G4yOGSD_Yjcvm6xEC-GvN3-EESgZb2vR8HJW0C-RoyY0OoHBj23eCoIbhuJFyIA.svg";
+                                break;
+                            case "12세 이상 관람가":
+                                document.getElementById("rating-image").src = "https://i.namu.wiki/i/wtYIZRcBXvy75MW0fGhc-itp1lKh5B-1X_5c9OfNk20CjDtyeZ8CTXHMjqwCnLyhRcWiGT4ynsPAENpxN8TfOJVnoumbCL1EkaA4Pn8gc33OXS81kt02zqHkxfe2nV4X7NMx4ZBeAfq0WBM_ychTFA.svg";
+                                break;
+                            case "15세 이상 관람가":
+                                document.getElementById("rating-image").src = "https://i.namu.wiki/i/XSDIGhgNKZoVlX9147BcVXJm8DZFUhlEMzcNfJShJcsA5tZDReA9FKzEyhuzoGVhrDfy2dPDeX_QDA9pvoRD7GAJjz_bL0qbiloJcMKcUzonDazHshjHQlUV012sKnckuaTM22VS_CBwFbAMgDrsxg.svg";
+                                break;
+                        }
+                    </script>
+                </dd>
+            </dl>
+            <dl class="movie-runtime">
+                <dt>러닝타임</dt>
+                <dd th:text="${movie.runtime} + '분'"></dd>
+            </dl>
+            <dl class="movie-director">
+                <dt>감독</dt>
+                <dd th:text="${movie.director}"></dd>
+            </dl>
+            <dl class="movie-cast">
+                <dt>출연배우</dt>
+                <dd th:text="${movie.cast}"></dd>
+            </dl>
+        </div>
 
-    <div class="movie-plot">
-      <p class="plot-title">줄거리</p>
-      <span class="plot-content" th:text="${movie.plot}"></span>
-    </div>
+        <div class="movie-plot">
+            <p class="plot-title">줄거리</p>
+            <span class="plot-content" th:text="${movie.plot}"></span>
+        </div>
 
-  </div>
+    </div>
 </div>
+
+<!-- 영화 리뷰 -->
+<!-- 영화 리뷰 -->
+<!-- 영화 리뷰 -->
+<div class="movie-reviews">
+    <h2 class="section-title">리뷰</h2>
+    <ul>
+        <li th:each="review : ${reviews}">
+            <p class="review-content" th:text="${review.content}"></p>
+            <p class="review-author" th:text="${review.memberId}"></p>
+
+            <!-- 현재 로그인한 유저의 ID와 review.memberId를 비교하여 조건에 따라 버튼 표시 -->
+            <div th:if="${loggedInUserId == review.memberId.toString()}">
+                <a th:href="@{/movies/{movieId}/reviews/{reviewId}/delete(movieId=${movie.movie_id}, reviewId=${review.review_id})}" class="btn btn-sm btn-danger">삭제하기</a>
+            </div>
+            <div th:if="${#request.isUserInRole('ADMIN')}">
+                <a th:href="@{/movies/{movieId}/reviews/{reviewId}/delete(movieId=${movie.movie_id}, reviewId=${review.review_id})}" class="btn btn-sm btn-danger">삭제하기</a>
+            </div>
+        </li>
+    </ul>
+</div>
+
+
 
 </body>
 </html>

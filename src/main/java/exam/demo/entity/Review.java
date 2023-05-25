@@ -1,57 +1,42 @@
 package exam.demo.entity;
 
+import exam.demo.dto.ReviewDto;
 import lombok.*;
 
 import javax.persistence.*;
 
 @NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Data
 @Entity
 public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long review_id;
+    @Column
+    private Long movieId;
 
     @Column
-    private Long movie;
-
+    private Long memberId;
     @Column
     private Integer rating;
-
     @Column
     private String content;
 
-
-    public Long getReview_id() {
-        return review_id;
+    public Review(ReviewDto reviewDto){
+        this.rating = reviewDto.getRating();
+        this.content = reviewDto.getContent();
     }
 
-    public void setReview_id(Long review_id) {
-        this.review_id = review_id;
+    public void updateReview(ReviewDto reviewDto){
+        this.rating = reviewDto.getRating();
+        this.content = reviewDto.getContent();
     }
 
-    public Long getMovie() {
-        return movie;
+    public void updateIds(Long memberId, Long movieId){
+        this.memberId = memberId;
+        this.movieId = movieId;
     }
 
-    public void setMovie(Long movie) {
-        this.movie = movie;
-    }
-
-    public Integer getRating() {
-        return rating;
-    }
-
-    public void setRating(Integer rating) {
-        this.rating = rating;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 }
