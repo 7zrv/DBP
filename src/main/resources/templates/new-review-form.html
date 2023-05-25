@@ -67,15 +67,13 @@
         <em>관람객 평점</em>
         <strong class="ic-score">
           <em>평점</em>
-          <strong th:text="${#numbers.formatDecimal(#aggregates.sum(reviews.![rating])*1.0 / #lists.size(reviews), 1, 1)}">8.2 </strong>
+          <strong th:unless="${#lists.isEmpty(reviews)}" th:text="${#numbers.formatDecimal(#aggregates.sum(reviews.![rating])*1.0 / #lists.size(reviews), 1, 1)}">7.8 </strong>
+          <strong th:if="${#lists.isEmpty(reviews)}">0.0 </strong>
         </strong>
       </li>
       <li class="sub-info2">
         <em>누적리뷰수</em>
-        <strong th:text="${#lists.size(reviews)}">3,500
-          <em>명</em>
-          <span class="date-info"> </span>
-        </strong>
+        <strong th:text="${#lists.size(reviews)}">0 </strong>
       </li>
     </ul>
 
@@ -90,6 +88,7 @@
         </div>
         <div class="rating-value" >0/10</div>
       </div>
+      <!--rating 범위만큼 별 색 변화-->
       <script>
           const rating_input = document.querySelector('.star-box input');
           const rating_star = document.querySelector('.rating-star');
@@ -121,7 +120,6 @@
         <script>
           const content = document.querySelector('.review-write-box textarea');
 
-
           content.addEventListener('keyup', () => {
             if(content.value.length > 250){ content.value = content.value.slice(0, 250);}
             document.querySelector('.byte').innerHTML=content.value.length;
@@ -135,7 +133,9 @@
       <div class="submit-button">
         <button type="submit">등록</button>
       </div>
+
     </form>
+
   </div>
 </div>
 </body>

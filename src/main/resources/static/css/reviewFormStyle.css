@@ -15,6 +15,7 @@ a { text-decoration: none; color: black; }
 /* 네비게이션 바 시작 */
 .navbar {
     position : fixed;
+    z-index:1;
     top : 0;
     width : 100%;
     display : flex;
@@ -58,6 +59,7 @@ a { text-decoration: none; color: black; }
 
 
 /** 리뷰 작성 시작**/
+
 .movie-review-title {
     font-size: 50px;
     display : grid;
@@ -73,7 +75,6 @@ a { text-decoration: none; color: black; }
     margin : auto 200px;
     justify-content: center;
 }
-
 
 .poster {
     flex-basis: 30%;
@@ -197,7 +198,7 @@ form {
     padding: 10px;
 }
 
-
+/*별점|평점*/
 h3 {
     text-align:center;
     font-size:22px;
@@ -228,9 +229,6 @@ h3 {
   cursor: pointer;
 }
 
-
-
-
 .rating-star {
   width: 0;
   color: #ffc107;
@@ -247,10 +245,11 @@ h3 {
 }
 
 
-/*리뷰 write 박스 시작*/
+/*리뷰 write 박스*/
 label{
  margin-left:2px;
 }
+
 .review-write-box {
     margin-top: 5px;
     border: 1px solid #ccc;
@@ -274,8 +273,9 @@ label{
     font-size: 12px;
     margin: 0 10px 10px 0;
 }
-/*리뷰 write 박스 끝*/
 
+
+/*폼 제출 버튼*/
 button[type="submit"] {
     margin: 5px;
     background-color: gainsboro;
@@ -292,12 +292,11 @@ button[type="submit"]:hover {
     color: white;
 }
 
-
 .submit-button {
     display: flex;
     justify-content: flex-end;
     background: #f8f8f8;
 }
-
 /*리뷰 작성 폼 끝*/
+
 /**리뷰 작성 끝**/
