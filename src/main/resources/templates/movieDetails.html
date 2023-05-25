@@ -62,22 +62,22 @@
             <dl class="movie-rating">
                 <dt>관람등급</dt>
                 <dd>
-          <span class="rating-img">
-            <img id="rating-image" src="https://i.namu.wiki/i/ALP5h0vSn2ZH8w1dACZl_WRD9wdTK-cFqK5pazmGgUtAUhy6h7CLZRmr4NYNqdc38H4lfyknXVlW5duiTC-9RdLf5T02jNDr73o-FUkuajfV4ABSWTHdSOhuOhkCdaPLeHudARk3U6DbEOjMpw14MQ.svg" alt="(영등위 관람등급)">
-          </span>
+                    <span class="rating-img">
+                        <img id="rating-image" src="https://i.imgur.com/RusTUUR.png" alt="(영등위 관람등급)">
+                    </span>
                     <span id="rating-v" class="rating-value" th:text="${movie.rating}"></span>
                     <!--관람등급에 따라 해당하는 관람등급 이미지 불러옴-->
                     <script>
                         switch(document.getElementById("rating-v").innerHTML) {
-                            case "전체 관람가":
-                                document.getElementById("rating-image").src = "https://i.namu.wiki/i/1wEPqFe2PBK--SFPtclHb2KKUdfb6H0kO73i17m3nm38PbmbnpZpBPr15pN0FFdyGqz-E7OgEMrJ09XAvt_H-l0G4yOGSD_Yjcvm6xEC-GvN3-EESgZb2vR8HJW0C-RoyY0OoHBj23eCoIbhuJFyIA.svg";
-                                break;
-                            case "12세 이상 관람가":
-                                document.getElementById("rating-image").src = "https://i.namu.wiki/i/wtYIZRcBXvy75MW0fGhc-itp1lKh5B-1X_5c9OfNk20CjDtyeZ8CTXHMjqwCnLyhRcWiGT4ynsPAENpxN8TfOJVnoumbCL1EkaA4Pn8gc33OXS81kt02zqHkxfe2nV4X7NMx4ZBeAfq0WBM_ychTFA.svg";
-                                break;
-                            case "15세 이상 관람가":
-                                document.getElementById("rating-image").src = "https://i.namu.wiki/i/XSDIGhgNKZoVlX9147BcVXJm8DZFUhlEMzcNfJShJcsA5tZDReA9FKzEyhuzoGVhrDfy2dPDeX_QDA9pvoRD7GAJjz_bL0qbiloJcMKcUzonDazHshjHQlUV012sKnckuaTM22VS_CBwFbAMgDrsxg.svg";
-                                break;
+                          case "전체 관람가":
+                            document.getElementById("rating-image").src = "https://i.imgur.com/Zj4yWzM.png";
+                            break;
+                          case "12세 이상 관람가":
+                            document.getElementById("rating-image").src = "https://i.imgur.com/6uLoH8S.png";
+                            break;
+                          case "15세 이상 관람가":
+                            document.getElementById("rating-image").src = "https://i.imgur.com/LMd9bst.png";
+                            break;
                         }
                     </script>
                 </dd>

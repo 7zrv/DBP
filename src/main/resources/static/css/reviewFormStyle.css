@@ -1,0 +1,303 @@
+/* 폰트 시작 */
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* { font-family: 'NanumSquareNeo-Variable'; }
+/* 폰트 끝 */
+
+body { margin: 0; }
+a { text-decoration: none; color: black; }
+
+/* 네비게이션 바 시작 */
+.navbar {
+    position : fixed;
+    top : 0;
+    width : 100%;
+    display : flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightgray;
+    padding: 8px 12px;
+}
+
+.navbar__logo {
+    font-size: 24px;
+    color: white;
+}
+
+.navbar__logo i {
+    font-size: 26px;
+    color:black;
+}
+
+.navbar__menu {
+    display: flex;
+    list-style: none;
+    padding-left: 30px;
+}
+
+.navbar__menu li:hover {
+    background-color: gainsboro;
+    border-radius: 4px;
+}
+
+.navbar__menu li {
+    padding: 8px 12px;
+}
+
+.navbar__menu a {
+    text-decoration: none;
+    color: black;
+}
+/* 네비게이션 바 끝 */
+
+
+
+/** 리뷰 작성 시작**/
+.movie-review-title {
+    font-size: 50px;
+    display : grid;
+    align-items : center;
+    text-align: center;
+    margin-top: 110px;
+}
+
+.movie-review {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin : auto 200px;
+    justify-content: center;
+}
+
+
+.poster {
+    flex-basis: 30%;
+    margin-right: 80px;
+}
+
+.review-form {
+    flex-basis: 70%;
+    margin-top: 30px;
+}
+
+
+/*영화 포스터 시작*/
+.movie-poster {
+    position: relative;
+    margin: 10px;
+}
+
+#movie-image {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+    border-radius: 6px;
+}
+
+#image-border1 {
+    position: absolute;
+    left:-10px;
+    top:-10px;
+    max-width:72px;
+    width:12.8vw;
+    max-height:72px;
+    height:12.8vw;
+    background:rgba(0,0,0,0) url("https://i.imgur.com/oiWnIkD.png") center/78px scroll no-repeat;
+}
+
+#image-border2 {
+    position: absolute;
+    right:-10px;
+    bottom:-10px;
+    max-width:72px;
+    width:12.8vw;
+    max-height:72px;
+    height:12.8vw;
+    background:rgba(0,0,0,0) url("https://i.imgur.com/oiWnIkD.png") center/78px scroll no-repeat;
+    transform:rotate(180deg)
+}
+/*영화 포스터 끝*/
+
+/*영화 제목 시작*/
+.movie-title {
+    margin: 0 auto;
+}
+
+.rating-img {
+    margin: -6px 6px 0 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.rating-img img {
+    width: 25px;
+    height: auto;
+    overflow: hidden;
+}
+
+.movie-title h2 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 2em;
+    margin: 0 auto;
+}
+/*영화 제목 끝*/
+
+/*리뷰 정보 시작*/
+.review-info {
+    list-style: none;
+    overflow: hidden;
+    padding: 0 0 17px 0;
+    margin-top: 20px;
+    font-size: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.review-info li {
+    float: left;
+    margin-right: 25px;
+}
+
+em {
+    font-style: normal;
+    font-weight: normal;
+}
+.review-info em {
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.review-info strong {
+    display: inline-block;
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+.ic-score em {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    text-indent: -9999em;
+    width: 14px;
+    height: 14px;
+    margin: -2px 3px 0 0;
+    background: url("https://i.imgur.com/NkmeQyb.png") no-repeat 0 0;
+}
+/*리뷰 정보 끝*/
+
+/*리뷰 작성 폼 시작*/
+form {
+    background: #f8f8f8;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+
+h3 {
+    text-align:center;
+    font-size:22px;
+}
+
+.rating-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.star-box {
+    letter-spacing: 10px;
+    position: relative;
+    color: #ddd;
+    font-size: 50px;
+    text-align: center;
+}
+
+.star-box input {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding-right:10px;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+
+
+
+.rating-star {
+  width: 0;
+  color: #ffc107;
+  position: absolute;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.rating-value {
+    font-size: 35px;
+    padding-top:10px;
+}
+
+
+/*리뷰 write 박스 시작*/
+label{
+ margin-left:2px;
+}
+.review-write-box {
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    background: #fff;
+}
+
+.review-write-box textarea {
+    border: none;
+    width: 100%;
+    line-height: 1.5;
+    box-sizing: border-box;
+    padding: 13px 18px;
+    resize: none;
+    font-size: 16px;
+    overflow: hidden;
+}
+
+.byte-info {
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    margin: 0 10px 10px 0;
+}
+/*리뷰 write 박스 끝*/
+
+button[type="submit"] {
+    margin: 5px;
+    background-color: gainsboro;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+button[type="submit"]:hover {
+    background-color: black;
+    color: white;
+}
+
+
+.submit-button {
+    display: flex;
+    justify-content: flex-end;
+    background: #f8f8f8;
+}
+
+/*리뷰 작성 폼 끝*/
+/**리뷰 작성 끝**/

@@ -39,6 +39,10 @@ public class ReviewController {
     public String showReviewForm(@PathVariable("id") Long id, Model model) {
         Movie movie = movieService.getMovieById(id);
         model.addAttribute("movie", movie);
+
+        List<Review> reviews = reviewService.getReviewsByMovieId(id);
+        model.addAttribute("reviews", reviews);
+
         model.addAttribute("review", new Review());
         return "new-review-form";
     }
