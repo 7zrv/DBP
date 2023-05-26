@@ -102,12 +102,12 @@ a { text-decoration: none; color: black; }
 .movie-title {
   font-weight: bold;
   font-size: 2em;
-  flex-basis: 70%;
+  flex-basis: 85%;
 }
 
 .reserve-button {
   display: block;
-  width: 150px;
+  min-width: 120px;
   margin: 10px;
   padding: 10px;
   background-color: #E50914;
@@ -125,7 +125,7 @@ a { text-decoration: none; color: black; }
 
 .review-button {
     display: block;
-    width: 150px;
+    min-width: 120px;
     margin: 10px;
     padding: 10px;
     border: 1px solid;
