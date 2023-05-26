@@ -1,6 +1,5 @@
 package exam.demo.dto;
 
-
 import lombok.Getter;
 import lombok.Setter;
 

@@ -3,7 +3,7 @@ package exam.demo.service;
 import exam.demo.dto.MovieDto;
 import exam.demo.entity.Movie;
 import exam.demo.repository.MovieRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,10 +15,10 @@ import java.util.UUID;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class MovieService {
 
-    @Autowired
-    private MovieRepository movieRepository;
+    private final MovieRepository movieRepository;
 
     public void registerMovie(Movie movie, MultipartFile imgFile) throws IOException {
         uploadImageFile(movie, imgFile);

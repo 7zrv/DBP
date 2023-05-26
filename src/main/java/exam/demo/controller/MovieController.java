@@ -1,6 +1,5 @@
 package exam.demo.controller;
 
-
 import exam.demo.dto.MovieDto;
 import exam.demo.entity.Member;
 import exam.demo.entity.Movie;
@@ -9,8 +8,6 @@ import exam.demo.service.MemberService;
 import exam.demo.service.MovieService;
 import exam.demo.service.ReviewService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +18,6 @@ import java.security.Principal;
 import java.util.List;
 
 
-
 @Controller
 @RequiredArgsConstructor
 public class MovieController {
@@ -29,7 +25,8 @@ public class MovieController {
     private final MovieService movieService;
     private final ReviewService reviewService;
     private final MemberService memberService;
-    @GetMapping("/movies")
+
+    @GetMapping( value = {"/", "/movies"})
     public String showAllMovies(Model model) {
         List<Movie> movies = movieService.getAllMovies();
         model.addAttribute("movies", movies);

@@ -1,6 +1,5 @@
 package exam.demo.service;
 
-
 import exam.demo.entity.Member;
 import exam.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +53,6 @@ public class MemberService implements UserDetailsService {
             throw new IllegalArgumentException("현재 비밀번호를 잘못 입력했습니다.");
         }
     }
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

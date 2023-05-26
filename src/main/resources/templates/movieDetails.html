@@ -40,10 +40,9 @@
         <div class="movie-element">
             <h2 class="movie-title" th:text="${movie.title}"></h2>
             <a href="@{/movies/reserve/{id}(id=${movie.movie_id})}" class="reserve-button">예매하기</a>
-            <a th:href="@{/movies/{id}/reviews/new(id=${movie.movie_id})}" class="review-button">한줄리뷰</a>
+            <a th:href="@{/movies/{id}/reviews/new(id=${movie.movie_id})}" th:if="${session.loggedIn}" class="review-button">한줄리뷰</a>
             <a th:href="@{/movies/{id}/delete(id=${movie.movie_id})}" th:if="${#request.isUserInRole('ADMIN')}" class="review-button">영화삭제</a>
             <a th:href="@{/movies/{id}/modify(id=${movie.movie_id})}" th:if="${#request.isUserInRole('ADMIN')}" class="review-button">영화정보 수정</a>
-
         </div>
 
         <div class="movie-info-list">
@@ -105,8 +104,6 @@
 </div>
 
 <!-- 영화 리뷰 -->
-<!-- 영화 리뷰 -->
-<!-- 영화 리뷰 -->
 <div class="movie-reviews">
     <h2 class="section-title">리뷰</h2>
     <ul>
@@ -116,6 +113,7 @@
 
             <!-- 현재 로그인한 유저의 ID와 review.memberId를 비교하여 조건에 따라 버튼 표시 -->
             <div th:if="${loggedInUserId == review.memberId.toString()}">
+                <a th:href="@{/movies/{movieId}/reviews/{reviewId}/modify(movieId=${movie.movie_id}, reviewId=${review.review_id})}" class="btn btn-sm btn-danger">수정하기</a>
                 <a th:href="@{/movies/{movieId}/reviews/{reviewId}/delete(movieId=${movie.movie_id}, reviewId=${review.review_id})}" class="btn btn-sm btn-danger">삭제하기</a>
             </div>
             <div th:if="${#request.isUserInRole('ADMIN')}">
@@ -124,7 +122,6 @@
         </li>
     </ul>
 </div>
-
 
 
 </body>

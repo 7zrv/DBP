@@ -1,7 +1,6 @@
 package exam.demo.service;
 
 import exam.demo.dto.ReviewDto;
-import exam.demo.entity.Movie;
 import exam.demo.entity.Review;
 import exam.demo.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;

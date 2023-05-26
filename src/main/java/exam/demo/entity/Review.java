@@ -16,7 +16,6 @@ public class Review {
     private Long review_id;
     @Column
     private Long movieId;
-
     @Column
     private Long memberId;
     @Column
