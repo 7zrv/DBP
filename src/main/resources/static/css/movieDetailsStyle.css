@@ -193,3 +193,22 @@ a { text-decoration: none; color: black; }
 }
 /** 영화 정보 끝 **/
 
+/**리뷰 시작**/
+/*별점*/
+.rating-box {
+    display:flex;
+}
+
+.rating-star {
+    position: relative;
+    color: #ddd;
+}
+
+.rating-star span {
+  width: 0;
+  color: #ffc107;
+  position: absolute;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}

@@ -117,6 +117,15 @@
     <ul>
         <li th:each="review : ${reviews}">
             <p class="review-content" th:text="${review.content}"></p>
+            <p class="review-rating">
+                <div class="rating-box">
+                    <div class="rating-star">
+                        ★★★★★
+                        <span th:style="'width:'+${#numbers.formatDecimal(review.rating * 10, 1, 0)}+'%'">★★★★★</span>
+                    </div>
+                    <span class="rating-value" th:text="${review.rating}"></span>
+                </div>
+            </p>
             <p class="review-author" th:text="${review.memberId}"></p>
 
             <!-- 현재 로그인한 유저의 ID와 review.memberId를 비교하여 조건에 따라 버튼 표시 -->
