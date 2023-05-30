@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 @NoArgsConstructor
 @Getter
-@Data
 @Entity
 public class Movie {
     @Id

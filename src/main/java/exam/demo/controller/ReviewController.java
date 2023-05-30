@@ -47,8 +47,9 @@ public class ReviewController {
     public String createReview(@PathVariable("id") Long movieId, ReviewDto reviewDto, Principal principal) throws IOException {
         Member member = memberService.getMemberByUsername(principal.getName());
 
+        reviewDto.setUserName(member.getUsername());
         Review review = new Review(reviewDto);
-        review.updateIds(member.getMember_id(), movieId);
+        review.updateIds(member.getMemberId(), movieId);
 
         reviewService.createReview(review);
         return "redirect:/movies/" + movieId;

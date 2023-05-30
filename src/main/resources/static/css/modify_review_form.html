@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/css/reviewFormStyle.css">
   <script src="https://kit.fontawesome.com/9cc16459ac.js" crossorigin="anonymous"></script>
-  <title th:text="${movie.title} + ' - 리뷰 작성'">리뷰 작성</title>
+  <title th:text="${movie.title} + ' - 리뷰 수정'">리뷰 수정</title>
 </head>
 
 <body>
@@ -29,17 +29,10 @@
   </ul>
 </nav>
 
-<h1 class="movie-review-title">리뷰 작성</h1>
+
+<h1 class="movie-review-title">리뷰 수정</h1>
 
 <div class="movie-review">
-  <div class="poster" >
-    <div class="movie-poster">
-      <img id="movie-image" th:src="@{${'/files/' + movie.getImgName()}}" th:title="${movie.movie_id}">
-      <img id="image-border1" src="https://i.imgur.com/oiWnIkD.png">
-      <img id="image-border2" src="https://i.imgur.com/oiWnIkD.png">
-    </div>
-  </div>
-
   <div class="review-form">
     <div class="movie-title">
       <span class="rating-img">
@@ -62,30 +55,16 @@
       <h2 th:text="${movie.title}"></h2>
     </div>
 
-    <ul class="review-info">
-      <li class="sub-info1">
-        <em>관람객 평점</em>
-        <strong class="ic-score">
-          <em>평점</em>
-          <strong th:unless="${#lists.isEmpty(reviews)}" th:text="${#numbers.formatDecimal(#aggregates.sum(reviews.![rating])*1.0 / #lists.size(reviews), 1, 1)}">7.8 </strong>
-          <strong th:if="${#lists.isEmpty(reviews)}">0.0 </strong>
-        </strong>
-      </li>
-      <li class="sub-info2">
-        <em>누적리뷰수</em>
-        <strong th:text="${#lists.size(reviews)}">0 </strong>
-      </li>
-    </ul>
+    <ul class="review-info"></ul>
 
-    <form method="POST" th:action="@{'/movies/' + ${movie.movie_id} + '/reviews/new'}">
-
+    <form method="POST" th:action="@{'/movies/' + ${movie.movie_id} + '/reviews/' + ${review.review_id} + '/modify'}">
 
       <h3>평점 · 감상평 작성</h3>
       <div class="rating-box">
         <div class="star-box">
           ★★★★★
           <span class="rating-star">★★★★★</span>
-          <input type="range" id="rating" name="rating" value="1" step="1" min="0" max="10">
+          <input type="range" id="rating" name="rating" th:value="${review.rating}" step="1" min="0" max="10">
         </div>
         <div class="rating-value" >0/10</div>
       </div>
@@ -93,6 +72,9 @@
       <script>
           const rating_input = document.querySelector('.star-box input');
           const rating_star = document.querySelector('.rating-star');
+
+          rating_star.style.width = `${rating_input.value * 25 + 10 * Math.floor(rating_input.value/2)}px`;
+          document.querySelector('.rating-value').innerHTML=rating_input.value + "/10";
 
           // 별점 드래그 할 때
           rating_input.addEventListener('input', () => {
@@ -104,8 +86,8 @@
 
       <label for="content">리뷰 내용:</label><br>
       <div class="review-write-box">
-        <textarea id="content" name="content" placeholder="평점 및 영화 감상평을 작성해주세요.
-주제와 무관한 리뷰 또는 스포일러는 표시제한 또는 삭제될 수 있습니다." maxlength="250" title="감상평 작성"></textarea>
+        <textarea id="content" name="content" th:text="${review.content}" placeholder="평점 및 영화 감상평을 작성해주세요.
+    주제와 무관한 리뷰 또는 스포일러는 표시제한 또는 삭제될 수 있습니다." maxlength="250" title="감상평 작성"></textarea>
         <!--박스 높이 자동 조절-->
         <script>
             const $content = document.getElementById("content");
@@ -115,11 +97,12 @@
             };
         </script>
         <span class="byte-info">
-            <strong class="byte">0</strong>/<em>250</em>
+          <strong class="byte">0</strong>/<em>250</em>
         </span>
         <!--실시간 글자수 계산-->
         <script>
           const content = document.querySelector('.review-write-box textarea');
+          document.querySelector('.byte').innerHTML=content.value.length;
 
           content.addEventListener('keyup', () => {
             if(content.value.length > 250){ content.value = content.value.slice(0, 250);}
@@ -132,7 +115,7 @@
         </script>
       </div>
       <div class="submit-button">
-        <button type="submit">등록</button>
+        <button type="submit">수정</button>
       </div>
 
     </form>

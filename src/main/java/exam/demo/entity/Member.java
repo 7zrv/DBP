@@ -16,15 +16,14 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
-@Data
 @Entity
 @Table(name = "MEMBER")
 public class Member implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="member_ID")
-    private Long member_id;
+    @Column(name="memberID")
+    private Long memberId;
 
     @Column(nullable = false, unique = true)
     private String userName;
@@ -64,7 +63,6 @@ public class Member implements UserDetails {
         authorities.add(new SimpleGrantedAuthority("ROLE_" + roleType.name()));
         return authorities;
     }
-
 
     @Override
     public String getUsername() {

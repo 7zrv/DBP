@@ -12,6 +12,8 @@ public class ReviewDto {
 
     private Long movieId;
     private Long memberId;
+
+    private String userName;
     private Integer rating;
     private String content;
 }

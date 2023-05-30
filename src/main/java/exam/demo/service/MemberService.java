@@ -38,6 +38,7 @@ public class MemberService implements UserDetailsService {
         return optionalMember.orElse(null);
     }
 
+
     //회원탈퇴 메서드
     public void withdrawMember(String username) {
         Member member = getMemberByUsername(username);

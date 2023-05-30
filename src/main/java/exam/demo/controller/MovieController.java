@@ -56,13 +56,17 @@ public class MovieController {
         List<Review> reviews = reviewService.getReviewsByMovieId(id);
         model.addAttribute("reviews", reviews);
 
+
+
         String loggedInUserId = null;
 
         if (principal != null) {
             Member member = memberService.getMemberByUsername(principal.getName());
-            loggedInUserId = member.getMember_id().toString();
+            loggedInUserId = member.getMemberId().toString();
         }
         model.addAttribute("loggedInUserId", loggedInUserId);
+        //요청사항 memberId로 UserName 불러오기
+        model.addAttribute("memberService", memberService);
 
         return "movieDetails";
     }
