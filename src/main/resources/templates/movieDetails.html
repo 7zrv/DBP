@@ -25,7 +25,8 @@
         </li>
         <li th:if="${session.loggedIn}"><a th:href="@{/logout}">로그아웃</a></li>
         <li th:unless="${session.loggedIn}"><a th:href="@{/login}">로그인</a></li>
-        <li><a th:href="@{/signup}">회원가입</a></li>
+        <li th:unless="${session.loggedIn}"><a th:href="@{/signup}">회원가입</a></li>
+        <li th:if="${session.loggedIn}"><a th:href="@{/mypage}">마이페이지</a></li>
     </ul>
 </nav>
 
@@ -105,7 +106,7 @@
 
 <!-- 영화 리뷰 -->
 <div class="movie-reviews">
-    <h2 class="section-title">리뷰</h2>
+    <h2 class="section-title">리뷰 및 평점</h2>
     <div class="ic-score">
         평점
         <img src="https://i.imgur.com/NkmeQyb.png">
@@ -114,10 +115,9 @@
         <span>점</span>
         <span th:text="'('+${#lists.size(reviews)}+'명)'">(0명)</span>
     </div>
-    <ul>
+    <ul class="review-box">
         <li th:each="review : ${reviews}">
-            <p class="review-content" th:text="${review.content}"></p>
-            <p class="review-rating">
+            <div class="rating-control">
                 <div class="rating-box">
                     <div class="rating-star">
                         ★★★★★
@@ -125,17 +125,16 @@
                     </div>
                     <span class="rating-value" th:text="${review.rating}"></span>
                 </div>
-            </p>
-            <p class="review-author" th:text="${review.userName}"></p>
 
-            <!-- 현재 로그인한 유저의 ID와 review.memberId를 비교하여 조건에 따라 버튼 표시 -->
-            <div th:if="${loggedInUserId == review.memberId.toString()}">
-                <a th:href="@{/movies/{movieId}/reviews/{reviewId}/modify(movieId=${movie.movie_id}, reviewId=${review.review_id})}" class="btn btn-sm btn-danger">수정하기</a>
-                <a th:href="@{/movies/{movieId}/reviews/{reviewId}/delete(movieId=${movie.movie_id}, reviewId=${review.review_id})}" class="btn btn-sm btn-danger">삭제하기</a>
+                <!-- 현재 로그인한 유저의 ID와 review.memberId를 비교하여 조건에 따라 버튼 표시 -->
+                <div th:if="${loggedInUserId == review.memberId.toString()} or ${#request.isUserInRole('ADMIN')}" class="control-button">
+                    <a th:if="${loggedInUserId == review.memberId.toString()}" th:href="@{/movies/{movieId}/reviews/{reviewId}/modify(movieId=${movie.movie_id}, reviewId=${review.review_id})}" class="btn btn-sm btn-danger">수정</a>
+                    <a th:href="@{/movies/{movieId}/reviews/{reviewId}/delete(movieId=${movie.movie_id}, reviewId=${review.review_id})}" class="btn btn-sm btn-danger">삭제</a>
+                </div>
             </div>
-            <div th:if="${#request.isUserInRole('ADMIN')}">
-                <a th:href="@{/movies/{movieId}/reviews/{reviewId}/delete(movieId=${movie.movie_id}, reviewId=${review.review_id})}" class="btn btn-sm btn-danger">삭제하기</a>
-            </div>
+            <p class="review-content" th:text="${review.content}"></p>
+            <p class="review-author" th:if="${loggedInUserId == review.memberId.toString()} or ${#request.isUserInRole('ADMIN')}" th:text="${review.userName}"></p>
+            <p class="review-author" th:unless="${loggedInUserId == review.memberId.toString()} or ${#request.isUserInRole('ADMIN')}" th:text="'사용자' + ${review.memberId}"></p>
         </li>
     </ul>
 </div>

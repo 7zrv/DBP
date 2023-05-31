@@ -194,6 +194,32 @@ a { text-decoration: none; color: black; }
 /** 영화 정보 끝 **/
 
 /**리뷰 시작**/
+.movie-reviews {
+    margin : auto 80px;
+    justify-content: center;
+}
+
+.review-box {
+    list-style: none;
+    padding:0;
+    border: 1.5px solid #e8ebee;
+}
+
+.review-box li {
+    border-radius: 6px;
+    padding:10px;
+    border: 1.5px solid #e8ebee;
+    margin: 10px
+}
+
+.rating-control {
+    display: flex;
+    justify-content: space-between;
+    width:100%
+}
+
+
+
 /*별점*/
 .rating-box {
     display:flex;
