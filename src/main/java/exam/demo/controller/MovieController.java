@@ -66,7 +66,6 @@ public class MovieController {
         }
         model.addAttribute("loggedInUserId", loggedInUserId);
         //요청사항 memberId로 UserName 불러오기
-        model.addAttribute("memberService", memberService);
 
         return "movieDetails";
     }
