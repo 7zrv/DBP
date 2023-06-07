@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Schedule</title>
+</head>
+<body>
+<h2>Edit Schedule</h2>
+
+<form th:action="@{/admin/schedule/{scheduleId}/edit(scheduleId=${schedule.scheduleId})}" method="post">
+    <label for="startTime">시작 시간:</label>
+    <input type="datetime-local" id="startTime" name="startTime" th:value="${schedule.startTime}"><br>
+    <label for="endTime">종료 시간:</label>
+    <input type="datetime-local" id="endTime" name="endTime" th:value="${schedule.endTime}"><br>
+
+    <input type="submit" value="Save"/>
+</form>
+</body>
+</html>

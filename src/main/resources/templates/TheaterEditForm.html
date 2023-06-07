@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>극장 수정</title>
+</head>
+<body>
+<!-- 극장 수정 폼 -->
+<h2>극장 수정</h2>
+<form th:action="@{'/admin/theater/update/' + ${theater.theaterId}}" method="post">
+  <input type="hidden" name="theaterId" th:value="${theater.theaterId}">
+  <label for="theaterName">극장 이름:</label>
+  <input type="text" name="theaterName" th:value="${theater.theaterName}">
+  <br>
+  <label for="theaterLocal">극장 위치:</label>
+  <input type="text" name="theaterLocal" th:value="${theater.theaterLocal}">
+  <br>
+  <h3>상영 중인 영화 목록 수정</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>영화 ID</th>
+      <th>영화 제목</th>
+      <th>삭제</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 서버에서 받은 상영 중인 영화 목록을 반복하여 표시하고, 삭제 체크박스를 추가합니다. -->
+    <tr th:each="movie : ${movies}">
+      <td th:text="${movie.movieId}"></td>
+      <td th:text="${movie.title}"></td>
+      <td>
+        <input type="checkbox" th:name="deletedMovies" th:value="${movie.movieId}">
+
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <br>
+  <button type="submit">수정</button>
+</form>
+
+</body>
+</html>
+

@@ -1,0 +1,19 @@
+<!-- create-theater.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <title>극장 생성</title>
+</head>
+<body>
+<h2>극장 생성</h2>
+<form action="/register/theater" method="post">
+    <label for="TheaterName">이름:</label>
+    <input type="text" id="TheaterName" name="TheaterName" required><br><br>
+
+    <label for="TheaterLocal">지역:</label>
+    <input type="text" id="TheaterLocal" name="TheaterLocal" required><br><br>
+
+    <input type="submit" value="생성">
+</form>
+</body>
+</html>

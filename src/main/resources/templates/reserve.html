@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation Page</title>
+    <style>
+        .container {
+            display: flex;
+        }
+
+        .theater-list {
+            flex: 1;
+        }
+
+        .screen-list {
+            flex: 2;
+        }
+
+        .theater-item {
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .screen-list {
+            display: none;
+        }
+
+        .screen-list.show {
+            display: block;
+        }
+
+        .schedule-item {
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .seat-list {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .seat-list.show {
+            display: block;
+        }
+
+        .seat-item {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .seat-item {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin: 2px;
+            background-color: #EAEAEA;
+            border: 1px solid #CCCCCC;
+            text-align: center;
+            line-height: 20px;
+        }
+
+        .seat-item.available {
+            background-color: #4CAF50;
+            color: #FFFFFF;
+        }
+
+        .seat-item.unavailable {
+            background-color: #F44336;
+            color: #FFFFFF;
+        }
+
+        .seat-item.selected {
+            background-color: #FF9800;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="theater-list">
+        <h2>영화관 목록</h2>
+        <ul>
+            <li th:each="theater : ${movieTheaters}" class="theater-item" th:onclick="'selectTheater(\'' + ${theater.theaterId} + '\')'">
+                <p>영화관 이름: <span th:text="${theater.theaterName}"></span></p>
+                <p>영화관 위치: <span th:text="${theater.theaterLocal}"></span></p>
+                <hr>
+            </li>
+        </ul>
+    </div>
+    <div class="screen-list">
+        <h2>상영관 목록</h2>
+        <ul id="screenList">
+            <li th:each="screen : ${screenrooms}" class="screen-item" th:data-theaterid="${screen.theaterId}">
+                <p>상영관 이름: <span th:text="${screen.screenroomName}"></span></p>
+                <ul class="schedule-list" th:each="schedule : ${schedules}" th:if="${schedule.screenroomId == screen.screenroomId && schedule.movieId == movieId}">
+                    <li class="schedule-item" th:onclick="'selectSchedule(\'' + ${schedule.scheduleId} + '\')'" th:data-scheduleid="${schedule.scheduleId}" >
+                        상영 일정 ID: <span th:text="${schedule.scheduleId}"></span><br>
+                        시작 시간: <span th:text="${schedule.startTime}"></span><br>
+                        종료 시간: <span th:text="${schedule.endTime}"></span>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<form id="reservationForm" action="/movies/reserve/check" method="post">
+    <input type="text" id="theaterIdInput" name="theaterId" value="">
+    <input type="text" id="scheduleIdInput" name="scheduleId" value="">
+    <input type="text" id="seatIdInput" name="seatId" value="">
+    <button type="submit">예매하기</button>
+</form>
+
+<div class="seat-list">
+    <h2>좌석 목록</h2>
+    <div id="seatList">
+    </div>
+</div>
+
+<script th:inline="javascript">
+    function selectTheater(theaterId) {
+        const screenItems = document.querySelectorAll('.screen-item');
+        screenItems.forEach(screenItem => {
+            const itemTheaterId = screenItem.getAttribute('data-theaterid');
+            if (itemTheaterId === theaterId) {
+                screenItem.style.display = 'block';
+            } else {
+                screenItem.style.display = 'none';
+            }
+        });
+        const screenList = document.querySelector('.screen-list');
+        screenList.classList.add('show');
+
+        // Set theater ID input value
+        const theaterIdInput = document.getElementById('theaterIdInput');
+        theaterIdInput.value = theaterId;
+    }
+
+    function selectSchedule(scheduleId) {
+        // Set schedule ID input value
+        const scheduleIdInput = document.getElementById('scheduleIdInput');
+        scheduleIdInput.value = scheduleId;
+
+        // Fetch seats by schedule ID
+        fetchSeats(scheduleId);
+    }
+
+    function fetchSeats(scheduleId) {
+        fetch('/movies/admin/seats/' + scheduleId)
+            .then(response => response.json())
+            .then(data => {
+                const seatList = document.getElementById('seatList');
+                seatList.innerHTML = '';
+
+                data.forEach(seat => {
+                    const seatItem = document.createElement('div');
+                    seatItem.classList.add('seat-item');
+
+                    if (seat.status === 'AVAILABLE') {
+                        seatItem.classList.add('available');
+                    } else if (seat.status === 'UNAVAILABLE') {
+                        seatItem.classList.add('unavailable');
+                    }
+
+                    seatItem.innerText = seat.seatNumber;
+                    seatItem.dataset.seatId = seat.seatId;
+                    seatItem.addEventListener('click', function() {
+                        selectSeat(seat);
+                    });
+
+                    seatList.appendChild(seatItem);
+                });
+
+                const seatListContainer = document.querySelector('.seat-list');
+                seatListContainer.classList.add('show');
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function selectSeat(seat) {
+        if (seat.status !== 'AVAILABLE') {
+            return; // "available" 상태가 아닌 좌석은 클릭 이벤트를 막음
+        }
+
+        const seatIdInput = document.getElementById('seatIdInput');
+        seatIdInput.value = seat.seatId;
+
+        const seatItems = document.querySelectorAll('.seat-item');
+        seatItems.forEach(seatItem => {
+            seatItem.classList.remove('selected');
+        });
+
+        const selectedSeat = document.querySelector('.seat-item[data-seat-id="' + seat.seatId + '"]');
+        selectedSeat.classList.add('selected');
+    }
+
+
+</script>
+
+
+
+</body>
+</html>

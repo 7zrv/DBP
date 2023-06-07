@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{'/admin/update/' + ${screenroom.screenroomId}}" method="post">
+    <label for="theaterId">소속 영화관:</label>
+    <select id="theaterId" name="theaterId">
+        <option value="">영화관 선택</option>
+        <option th:each="theater : ${theaters}" th:value="${theater.theaterId}" th:text="${theater.theaterName}"></option>
+    </select><br>
+    <label for="screenroomName">상영관 이름:</label>
+    <input type="text" id="screenroomName" name="screenroomName"><br>
+
+    <button type="submit">등록</button>
+</form>
+
+</body>
+</html>

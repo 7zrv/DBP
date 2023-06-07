@@ -21,16 +21,19 @@
     </div>
 
     <ul class="navbar__menu">
+        <li th:if="${#request.isUserInRole('ADMIN')}">
+            <a th:href="@{/admin/adminPage}">관리자 페이지</a>
+        </li>
         <li><a th:href="@{/movies}">홈</a></li>
         <li><a th:href="@{/movies}">영화 목록</a></li>
         <li th:if="${#request.isUserInRole('ADMIN')}">
             <a th:href="@{/movies/register}">영화 등록</a>
         </li>
 
-
         <li th:if="${session.loggedIn}"><a th:href="@{/logout}">로그아웃</a></li>
         <li th:unless="${session.loggedIn}"><a th:href="@{/login}">로그인</a></li>
-        <li><a th:href="@{/signup}">회원가입</a></li>
+        <li th:if="${session.loggedIn}"><a th:href="@{/mypage}">내 정보</a></li>
+        <li th:unless="${session.loggedIn}"><a th:href="@{/signup}">회원가입</a></li>
     </ul>
 </nav>
 
@@ -43,13 +46,13 @@
             <div th:each="movie : ${movies}" class="movie-box">
                 <div class="movie-poster">
                     <div class="poster-ratio">
-                        <img class="poster "th:src="@{${'/files/' + movie.getImgName()}}" th:title="${movie.movie_id}" alt="">
+                        <img class="poster "th:src="@{${'/files/' + movie.getImgName()}}" th:title="${movie.movieId}" alt="">
                     </div>
                 </div>
-                <h2 class="movie-title"><a th:href="@{/movies/{id}(id=${movie.movie_id})}" th:text="${movie.title}">제목</a></h2>
+                <h2 class="movie-title"><a th:href="@{/movies/{id}(id=${movie.movieId})}" th:text="${movie.title}">제목</a></h2>
                 <div class="buttons">
-                    <a th:href="@{/movies/reserve/{id}(id=${movie.movie_id})}" class="reserve-button">예매하기</a>
-                    <a th:href="@{/movies/{id}(id=${movie.movie_id})}" class="details-button">상세보기</a>
+                    <a th:href="@{/movies/reserve/{id}(id=${movie.movieId})}" class="reserve-button">예매하기</a>
+                    <a th:href="@{/movies/{id}(id=${movie.movieId})}" class="details-button">상세보기</a>
                 </div>
             </div>
         </div>

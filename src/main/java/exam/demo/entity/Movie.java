@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long movie_id;
+    private Long movieId;
     private String title;
     private String director;
     private String cast;

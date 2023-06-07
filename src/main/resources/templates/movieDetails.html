@@ -34,16 +34,16 @@
 
 <div class="movie-detail">
     <div class="movie-image">
-        <img th:src="@{${'/files/' + movie.getImgName()}}" th:title="${movie.movie_id}" alt="">
+        <img th:src="@{${'/files/' + movie.getImgName()}}" th:title="${movie.movieId}" alt="">
     </div>
 
     <div class="movie-info">
         <div class="movie-element">
             <h2 class="movie-title" th:text="${movie.title}"></h2>
-            <a href="@{/movies/reserve/{id}(id=${movie.movie_id})}" class="reserve-button">예매하기</a>
-            <a th:href="@{/movies/{id}/reviews/new(id=${movie.movie_id})}" th:if="${session.loggedIn}" class="review-button">한줄리뷰</a>
-            <a th:href="@{/movies/{id}/delete(id=${movie.movie_id})}" th:if="${#request.isUserInRole('ADMIN')}" class="review-button">영화삭제</a>
-            <a th:href="@{/movies/{id}/modify(id=${movie.movie_id})}" th:if="${#request.isUserInRole('ADMIN')}" class="review-button">영화정보 수정</a>
+            <a th:href="@{/movies/reserve/{id}(id=${movie.movieId})}" class="reserve-button">예매하기</a>
+            <a th:href="@{/movies/{id}/reviews/new(id=${movie.movieId})}" th:if="${session.loggedIn}" class="review-button">한줄리뷰</a>
+            <a th:href="@{/movies/{id}/delete(id=${movie.movieId})}" th:if="${#request.isUserInRole('ADMIN')}" class="review-button">영화삭제</a>
+            <a th:href="@{/movies/{id}/modify(id=${movie.movieId})}" th:if="${#request.isUserInRole('ADMIN')}" class="review-button">영화정보 수정</a>
         </div>
 
         <div class="movie-info-list">
@@ -128,8 +128,8 @@
 
                 <!-- 현재 로그인한 유저의 ID와 review.memberId를 비교하여 조건에 따라 버튼 표시 -->
                 <div th:if="${loggedInUserId == review.memberId.toString()} or ${#request.isUserInRole('ADMIN')}" class="control-button">
-                    <a th:if="${loggedInUserId == review.memberId.toString()}" th:href="@{/movies/{movieId}/reviews/{reviewId}/modify(movieId=${movie.movie_id}, reviewId=${review.review_id})}" class="btn btn-sm btn-danger">수정</a>
-                    <a th:href="@{/movies/{movieId}/reviews/{reviewId}/delete(movieId=${movie.movie_id}, reviewId=${review.review_id})}" class="btn btn-sm btn-danger">삭제</a>
+                    <a th:if="${loggedInUserId == review.memberId.toString()}" th:href="@{/movies/{movieId}/reviews/{reviewId}/modify(movieId=${movie.movieId}, reviewId=${review.review_id})}" class="btn btn-sm btn-danger">수정</a>
+                    <a th:href="@{/movies/{movieId}/reviews/{reviewId}/delete(movieId=${movie.movieId}, reviewId=${review.review_id})}" class="btn btn-sm btn-danger">삭제</a>
                 </div>
             </div>
             <p class="review-content" th:text="${review.content}"></p>

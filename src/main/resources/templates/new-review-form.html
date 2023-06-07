@@ -34,7 +34,7 @@
 <div class="movie-review">
   <div class="poster" >
     <div class="movie-poster">
-      <img id="movie-image" th:src="@{${'/files/' + movie.getImgName()}}" th:title="${movie.movie_id}">
+      <img id="movie-image" th:src="@{${'/files/' + movie.getImgName()}}" th:title="${movie.movieId}">
       <img id="image-border1" src="https://i.imgur.com/oiWnIkD.png">
       <img id="image-border2" src="https://i.imgur.com/oiWnIkD.png">
     </div>
@@ -77,7 +77,7 @@
       </li>
     </ul>
 
-    <form method="POST" th:action="@{'/movies/' + ${movie.movie_id} + '/reviews/new'}">
+    <form method="POST" th:action="@{'/movies/' + ${movie.movieId} + '/reviews/new'}">
 
 
       <h3>평점 · 감상평 작성</h3>
