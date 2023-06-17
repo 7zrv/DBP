@@ -8,9 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -52,6 +50,8 @@ public class MemberController {
         return "login";
     }
 
+
+
     //사용자 정보 페이지
     @GetMapping("/mypage")
     public String myPage(Model model, Principal principal) {
@@ -78,6 +78,18 @@ public class MemberController {
         memberService.changePassword(username, currentPassword, newPassword);
         return "redirect:mypage";
     }
+
+    // 회원 수 카운팅 (ID 중복 체크)
+    @PostMapping("/checkMemberId")
+    @ResponseBody
+    public boolean checkMemberId(@RequestBody MemberDto memberDto) {
+        String loginId = memberDto.getUserName();
+        return memberService.checkMemberId(loginId);
+    }
+
+
+
+
 
 
 }

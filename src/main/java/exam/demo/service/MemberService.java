@@ -66,4 +66,9 @@ public class MemberService implements UserDetailsService {
 
         throw new UsernameNotFoundException("User not found with username: " + username);
     }
+
+    //회원가입시 아이디 중복확인을 위한 메서드
+    public boolean checkMemberId(String loginId) {
+        return !memberRepository.existsByUserName(loginId);
+    }
 }

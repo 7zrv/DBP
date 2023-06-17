@@ -3,31 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Theater 관리자 페이지</title>
-  <style>
-    /* 스타일을 추가하여 페이지를 보기 좋게 정리할 수 있습니다. */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 10px;
-      border: 1px solid #ccc;
-    }
-
-    form {
-      margin-bottom: 20px;
-    }
-
-    input[type="text"], button {
-      padding: 5px;
-      margin-right: 10px;
-    }
-  </style>
   <!-- Bootstrap 라이브러리를 추가합니다. -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-pzjw8+6VjUGJcIbb6X5jVWzQ9Fpo+ku1CkHjc3tuC2+ABq4Ytv8v2v1WW4jj1yQo"
         crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/adminPageStyle.css">
   <script>
     // 페이지 로드 시 실행되는 함수
     document.addEventListener("DOMContentLoaded", function() {
@@ -40,12 +20,15 @@
   </script>
 </head>
 <body>
-<h1>관리자 페이지</h1>
 
 <!-- 탭 구조를 생성합니다. -->
-<ul class="nav nav-tabs">
+<nav class="navbar">
+  <div class="navbar__logo">
+  <a href="">관리자페이지</a>
+    </div>
+<ul class="navbar__menu">
   <li class="nav-item">
-    <a class="nav-link active" id="theater-tab" data-toggle="tab" href="#theater">극장 관리</a>
+    <a class="nav-link active" id="theater-tab" data-toggle="tab" href="#theater">영화관 관리</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" id="screenRoom-tab" data-toggle="tab" href="#screenRoom">상영관 관리</a>
@@ -54,13 +37,13 @@
     <a class="nav-link" id="schedule-tab" data-toggle="tab" href="#schedule">상영일정 관리</a>
   </li>
 </ul>
-
+</nav>
 <!-- 탭 내용을 구현합니다. -->
 <div class="tab-content">
   <!-- 극장 관리 탭 -->
   <div class="tab-pane fade show active" id="theater">
-    <h2>영화관 목록</h2>
     <table>
+      <h2 class="title">영화관 목록</h2>
       <thead>
       <tr>
         <th>ID</th>
@@ -81,38 +64,46 @@
           <!-- 상영 중인 영화 목록을 반복하여 표시할 수 있습니다. -->
           <span th:each="movieId : ${theater.screenMovies}" th:text="${movieId}"></span>
         </td>
-        <td><a th:href="@{/admin/theater/{TheaterId}/edit(TheaterId=${theater.theaterId})}">수정</a></td>
-        <td><a th:href="@{/admin/theater/{TheaterId}/delete(TheaterId=${theater.theaterId})}">삭제</a></td>
+        <td><a th:href="@{/admin/theater/{TheaterId}/edit(TheaterId=${theater.theaterId})}" style="color:blue">수정</a></td>
+        <td><a th:href="@{/admin/theater/{TheaterId}/delete(TheaterId=${theater.theaterId})}" style="color:red">삭제</a></td>
       </tr>
       </tbody>
     </table>
-
-    <h2>영화관 추가</h2>
-    <form action="/admin/theater/new" method="post">
-      <input type="text" name="theaterName" placeholder="극장 이름">
-      <input type="text" name="theaterLocal" placeholder="극장 위치">
+    <br>
+    <h2 class="title">영화관 추가</h2>
+    <form action="/admin/theater/new" method="post" class="theater-add">
+      <input type="text" name="theaterName" placeholder="영화관 이름">
+      </select></br>
+      </br>
+      <input type="text" name="theaterLocal" placeholder="영화관 위치">
+      </select></br>
+      </br>
       <button type="submit">추가</button>
     </form>
-    <h2>상영 영화 추가</h2>
-    <form action="/admin/theater/addMovie" method="post">
+    <br>
+    <h2 class="title">상영 영화 추가</h2>
+    <form action="/admin/theater/addMovie" method="post" class="theater-add">
       <label for="theaterId">극장 선택:</label>
       <select name="theaterId" id="theaterId">
         <!-- 서버에서 받은 극장 목록을 반복하여 옵션으로 표시할 수 있습니다. -->
         <option th:each="theater : ${theaters}" th:value="${theater.theaterId}" th:text="${theater.theaterName}"></option>
-      </select>
+      </select></br>
+      </br>
       <label for="movieId">영화 선택:</label>
       <select name="movieId" id="movieId">
         <!-- 서버에서 받은 영화 목록을 반복하여 옵션으로 표시할 수 있습니다. -->
         <option th:each="movie : ${movies}" th:value="${movie.movieId}" th:text="${movie.title}"></option>
-      </select>
+      </select></br>
+      </br>
       <button type="submit">등록</button>
     </form>
   </div>
-
-  <p>상영관 관리</p>
+  <br>
+  <br>
+  <br>
   <!-- 상영관 관리 탭 -->
   <div class="tab-pane" id="screenRoom">
-    <h2>상영관 목록</h2>
+    <h2 class="title">상영관 목록</h2>
     <table>
       <thead>
       <tr>
@@ -132,34 +123,36 @@
 
         <td>
           <!-- 상영관 수정 페이지로 이동하는 링크를 추가합니다. -->
-          <a th:href="@{/admin/screenroom/{screenroomId}/edit(screenroomId=${screenroom.screenroomId})}">수정</a>
+          <a th:href="@{/admin/screenroom/{screenroomId}/edit(screenroomId=${screenroom.screenroomId})}"style="color:blue">수정</a>
         </td>
         <td>
           <!-- 상영관 삭제 요청을 처리하는 링크를 추가합니다. -->
-          <a th:href="@{/admin/screenroom/{screenroomId}/delete(screenroomId=${screenroom.screenroomId})}">삭제</a>
+          <a th:href="@{/admin/screenroom/{screenroomId}/delete(screenroomId=${screenroom.screenroomId})}"style="color:red">삭제</a>
         </td>
       </tr>
       </tbody>
     </table>
 
-    <h2>상영관 추가</h2>
+    <h2 class="title">상영관 추가</h2>
 
-    <form action="/admin/screenroom/new" method="post">
+    <form action="/admin/screenroom/new" method="post" class="theater-add">
       <label for="theaterId">소속 영화관:</label>
       <select id="theaterId" name="theaterId">
         <option th:each="theater : ${theaters}" th:value="${theater.theaterId}" th:text="${theater.theaterName}"></option>
       </select><br>
+      <br>
       <label for="screenroomName">상영관 이름:</label>
       <input type="text" id="screenroomName" name="screenroomName"><br>
-
+      </select></br>
       <button type="submit">등록</button>
     </form>
 
   </div>
-
+  <br>
+  <br>
   <!-- 상영일정 관리 탭 -->
   <div class="tab-pane" id="schedule">
-    <h2>상영일정 목록</h2>
+    <h2 class="title">상영일정 목록</h2>
     <table>
       <thead>
       <tr>
@@ -186,18 +179,18 @@
         <td th:text="${schedule.endTime}"></td>
         <td>
           <!-- 상영관 수정 페이지로 이동하는 링크를 추가합니다. -->
-          <a th:href="@{/admin/schedule/{scheduleId}/edit(scheduleId=${schedule.scheduleId})}">수정</a>
+          <a th:href="@{/admin/schedule/{scheduleId}/edit(scheduleId=${schedule.scheduleId})}"style="color:blue">수정</a>
         </td>
         <td>
           <!-- 상영관 삭제 요청을 처리하는 링크를 추가합니다. -->
-          <a th:href="@{/admin/schedule/{scheduleId}/delete(scheduleId=${schedule.scheduleId})}">삭제</a>
+          <a th:href="@{/admin/schedule/{scheduleId}/delete(scheduleId=${schedule.scheduleId})}"style="color:red">삭제</a>
         </td>
       </tr>
       </tbody>
     </table>
 
-    <h2>상영일정 등록</h2>
-    <form th:action="@{/admin/schedule/create}" method="post">
+    <h2 class="title">상영일정 등록</h2>
+    <form th:action="@{/admin/schedule/create}" method="post" class="theater-add">
       <label for="screenRoomId">상영관:</label>
       <select id="screenroomId" name="screenroomId">
         <option value="">상영관 선택</option>
@@ -219,9 +212,9 @@
   </div>
   <div>
 
-    <h2>좌석 crud</h2>
+    <h2 class="title">좌석 crud</h2>
     <!-- 좌석 생성 폼 -->
-    <form th:action="@{/admin/seats/create/}" method="post">
+    <form th:action="@{/admin/seats/create/}" method="post" class="theater-add">
       <label for="scheduleId">상영일정 선택:</label>
       <select id="scheduleId" name="scheduleId" required>
         <option th:each="schedule : ${schedules}" th:value="${schedule.scheduleId}" th:text="${schedule.scheduleId}"></option>
@@ -230,14 +223,16 @@
       <input type="number" id="numRows" name="numRows" min="1" required><br>
       <label for="numSeatsPerRow">한 행당 좌석 수:</label>
       <input type="number" id="numSeatsPerRow" name="numSeatsPerRow" min="1" required><br>
+      <br>
       <button type="submit">생성</button>
     </form>
-    <form th:action="@{/admin/seats/delete/}" method="post">
+    <form th:action="@{/admin/seats/delete/}" method="post" class="theater-add">
       <label for="scheduleId">상영일정 선택:</label>
       <select id="scheduleId" name="scheduleId" required>
         <option th:each="schedule : ${schedules}" th:value="${schedule.scheduleId}" th:text="${schedule.scheduleId}"></option>
       </select><br>
-      <button type="submit">삭제</button>
+      <br>
+      <button type="submit"style="color:red">삭제</button>
     </form>
 
 

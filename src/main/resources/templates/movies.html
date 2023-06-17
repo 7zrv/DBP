@@ -31,7 +31,7 @@
         </li>
 
         <li th:if="${session.loggedIn}"><a th:href="@{/logout}">로그아웃</a></li>
-        <li th:unless="${session.loggedIn}"><a th:href="@{/login}">로그인</a></li>
+        <li th:unless="${session.loggedIn}"><a th:href="@{/login}">로그인/회원가입</a></li>
         <li th:if="${session.loggedIn}"><a th:href="@{/mypage}">내 정보</a></li>
         <li th:unless="${session.loggedIn}"><a th:href="@{/signup}">회원가입</a></li>
     </ul>
@@ -51,12 +51,21 @@
                 </div>
                 <h2 class="movie-title"><a th:href="@{/movies/{id}(id=${movie.movieId})}" th:text="${movie.title}">제목</a></h2>
                 <div class="buttons">
-                    <a th:href="@{/movies/reserve/{id}(id=${movie.movieId})}" class="reserve-button">예매하기</a>
+                    <a href="javascript:void(0);" th:onclick="'openPopup(' + ${movie.movieId} + ');'" class="reserve-button">예매하기</a>
                     <a th:href="@{/movies/{id}(id=${movie.movieId})}" class="details-button">상세보기</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-</div></body>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function openPopup(movieId) {
+        var url = /*[[@{/movies/reserve/}]]*/ 'reserve';
+        window.open(url + movieId, 'newwindow', 'width=600, height=600');
+    }
+    /*]]>*/
+</script>
+</body>
 </html>

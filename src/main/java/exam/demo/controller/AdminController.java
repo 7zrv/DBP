@@ -28,7 +28,6 @@ public class AdminController {
     private final MovieService movieService;
     private final ScreenroomService screenRoomService;
     private final ScheduleService scheduleService;
-
     private final SeatService seatService;
 
     @GetMapping("/adminPage")

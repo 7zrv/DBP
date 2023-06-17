@@ -16,13 +16,13 @@ import java.security.Principal;
 @Transactional
 @RequiredArgsConstructor
 public class ReservationService {
-
     private final ReservationRepository reservationRepository;
     private final ScheduleService scheduleService;
     private final TheaterService theaterService;
     private final SeatService seatService;
     private final ScreenroomService screenroomService;
     private final MovieService movieService;
+
     public void createReserve(ReserveRequestDto reserveRequestDto, Principal principal) throws IOException {
 
         Schedule schedule = scheduleService.getScheduleById(reserveRequestDto.getScheduleId());

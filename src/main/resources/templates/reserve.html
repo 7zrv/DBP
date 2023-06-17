@@ -3,79 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Reservation Page</title>
-    <style>
-        .container {
-            display: flex;
-        }
-
-        .theater-list {
-            flex: 1;
-        }
-
-        .screen-list {
-            flex: 2;
-        }
-
-        .theater-item {
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-
-        .screen-list {
-            display: none;
-        }
-
-        .screen-list.show {
-            display: block;
-        }
-
-        .schedule-item {
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-
-        .seat-list {
-            display: none;
-            margin-top: 20px;
-        }
-
-        .seat-list.show {
-            display: block;
-        }
-
-        .seat-item {
-            display: inline-block;
-            margin-right: 5px;
-        }
-
-        .seat-item {
-            width: 20px;
-            height: 20px;
-            display: inline-block;
-            margin: 2px;
-            background-color: #EAEAEA;
-            border: 1px solid #CCCCCC;
-            text-align: center;
-            line-height: 20px;
-        }
-
-        .seat-item.available {
-            background-color: #4CAF50;
-            color: #FFFFFF;
-        }
-
-        .seat-item.unavailable {
-            background-color: #F44336;
-            color: #FFFFFF;
-        }
-
-        .seat-item.selected {
-            background-color: #FF9800;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/reserveStyle.css">
 </head>
 
-<body>
+<h2 class="movie-list-title">영화 목록</h2>
 <div class="container">
     <div class="theater-list">
         <h2>영화관 목록</h2>

@@ -39,6 +39,9 @@ dependencies {
 	implementation 'commons-io:commons-io:2.11.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	//testImplementation 'org.springframework.security:spring-security-test'
+
+	//sms api
+	implementation 'net.nurigo:sdk:4.2.7'
 }
 
 tasks.named('test') {

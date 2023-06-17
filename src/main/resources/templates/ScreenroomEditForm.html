@@ -2,20 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="/css/EditFormStyle.css">
+    <title>상영관 수정</title>
 </head>
 <body>
-<form th:action="@{'/admin/update/' + ${screenroom.screenroomId}}" method="post">
-    <label for="theaterId">소속 영화관:</label>
-    <select id="theaterId" name="theaterId">
-        <option value="">영화관 선택</option>
-        <option th:each="theater : ${theaters}" th:value="${theater.theaterId}" th:text="${theater.theaterName}"></option>
-    </select><br>
-    <label for="screenroomName">상영관 이름:</label>
-    <input type="text" id="screenroomName" name="screenroomName"><br>
-
-    <button type="submit">등록</button>
-</form>
-
+<div class="editForm">
+    <h2>상연관 수정</h2>
+    <form th:action="@{'/admin/update/' + ${screenroom.screenroomId}}" method="post">
+        <div class="form-row">
+            <label for="theaterId">소속 영화관:</label>
+            <select id="theaterId" name="theaterId">
+                <option th:each="theater : ${theaters}" th:value="${theater.theaterId}" th:text="${theater.theaterName}" th:selected="${screenroom.theaterId == theater.theaterId}"></option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label for="screenroomName">상영관 이름:</label>
+            <input type="text" id="screenroomName" name="screenroomName" th:value="${screenroom.screenroomName}" required>
+        </div>
+        <div class="submit-button">
+            <button type="submit">수정</button>
+            <button type="button" onclick="history.back()">취소</button>
+            <button type="reset">초기화</button>
+        </div>
+    </form>
+</div>
 </body>
 </html>
