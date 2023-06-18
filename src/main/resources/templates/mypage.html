@@ -19,18 +19,18 @@
                 <p>이메일: <span th:text="${member.email}", class="size"></span></p>
                 </label>
 
-              <label>
+            </form>
+
                 <form th:action="@{/changePassword}" method="post">
                     <label for="currentPassword">기존 비밀번호:</label>
                     <input type="password" id="currentPassword" name="currentPassword", class="size2"><br>
-                  <br>
+                    <br>
                     <label for="newPassword">새 비밀번호:</label>
                     <input type="password" id="newPassword" name="newPassword", class="size2"><br>
-                  <br>
+                    <br>
                     <input type="submit" value="비밀번호 변경", class="btn">
                 </form>
-              </label>
-            </form>
+
           <hr>
             <a th:href="@{/withdraw}" onclick="return confirm('정말로 회원 탈퇴하시겠습니까?')">회원 탈퇴</a>
         </div>

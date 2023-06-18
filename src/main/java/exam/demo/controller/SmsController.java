@@ -1,11 +1,16 @@
 package exam.demo.controller;
 
+import exam.demo.entity.Member;
+
+import exam.demo.service.MemberService;
+import lombok.RequiredArgsConstructor;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,11 +18,14 @@ import javax.servlet.http.HttpSession;
 import java.util.Random;
 
 @Controller
+
 public class SmsController {
 
     final DefaultMessageService messageService;
+    final MemberService memberService;
 
-    public SmsController() {
+    public SmsController(MemberService memberService) {
+        this.memberService = memberService;
         // 반드시 계정 내 등록된 유효한 API 키, API Secret Key를 입력해주셔야 합니다!
         this.messageService = NurigoApp.INSTANCE.initialize("NCS91UYD0KMJ6WHE", "NPESTXLDHG9NDDCYIJQAXVGFGL6JN5VL", "https://api.coolsms.co.kr");
     }
@@ -57,5 +65,38 @@ public class SmsController {
         boolean isVerified = verificationCode.equals(storedCode);
 
         return isVerified;
+    }
+
+
+    @GetMapping("/findMyPassword")
+    public String showFindPasswordPage() {
+        return "findPassword"; // 비밀번호 찾기 페이지의 Thymeleaf 템플릿 이름을 반환합니다.
+    }
+
+    @PostMapping("/findMyPassword")
+    public String findPassword(@RequestParam("userName") String userName, Model model) {
+
+        Member member = memberService.getMemberByUsername(userName);
+
+        Random rand = new Random();
+
+        StringBuilder tempPassword = new StringBuilder();
+        for(int i = 0; i < 8; i++){
+            tempPassword.append(Integer.toString(rand.nextInt(10)));;
+        }
+
+        memberService.makeTempPassword(userName, tempPassword.toString());
+
+        Message message = new Message();
+        message.setFrom("01051636609");
+        message.setTo(member.getPhoneNumber()); // 전달받은 전화번호를 수신번호로 설정합니다.
+        message.setText("[졸업시켜조] 임시 비밀번호는 ["+tempPassword+"] 입니다. 로그인후 비밀번호를 변경해주세요");
+
+
+        SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
+        System.out.println(response);
+
+
+        return "login"; // 비밀번호를 찾은 후에 보여줄 페이지의 Thymeleaf 템플릿 이름을 반환합니다.
     }
 }

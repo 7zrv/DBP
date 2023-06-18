@@ -55,6 +55,11 @@ public class MemberService implements UserDetailsService {
         }
     }
 
+    public void makeTempPassword(String userName, String tempPassword){
+        Member member = getMemberByUsername(userName);
+        member.updatePassword(tempPassword);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Member> optionalMember = memberRepository.findByUserName(username);
@@ -71,5 +76,17 @@ public class MemberService implements UserDetailsService {
     public boolean isUserNameDuplicate(String userName) {
         Optional<Member> member = memberRepository.findByUserName(userName);
         return member.isPresent();
+    }
+
+
+    public String findMyIdByEmail(String email){
+        Member member = memberRepository.findMemberByEmail(email);
+        if (member == null) {
+            // 이메일로 등록된 아이디가 없는 경우 처리
+            return null;
+        }
+
+        return member.getUsername();
+
     }
 }
