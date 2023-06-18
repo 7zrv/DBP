@@ -57,7 +57,8 @@ public class MemberService implements UserDetailsService {
 
     public void makeTempPassword(String userName, String tempPassword){
         Member member = getMemberByUsername(userName);
-        member.updatePassword(tempPassword);
+
+        member.updatePassword(passwordEncoder.encode(tempPassword));
     }
 
     @Override
