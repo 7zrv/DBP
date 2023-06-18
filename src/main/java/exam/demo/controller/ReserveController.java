@@ -44,12 +44,21 @@ public class ReserveController {
         return seatService.getSeatsByScheduleId(scheduleId);
     }
 
+
+
     @PostMapping("/reserve/check")
-    public String checkReservation(@ModelAttribute ReserveRequestDto reserveRequestDto, Principal principal) throws IOException {
+    public String checkReservation(@ModelAttribute ReserveRequestDto reserveRequestDto, Principal principal, Model model) throws IOException {
 
-        reservationService.createReserve(reserveRequestDto, principal);
+        Reservation reservation = reservationService.createReserve(reserveRequestDto, principal);
+        Long reservationId = reservation.getReserveId();
+        return "redirect:/movies/reserveCheckPage/" + reservationId; // 예매 성공 페이지로 리다이렉트
+    }
 
+    @GetMapping("/reserveCheckPage/{reserveId}")
+    public String showCheckPage(@PathVariable Long reserveId, Model model){
+        Reservation reservation = reservationService.getReservationById(reserveId);
+        model.addAttribute("reservation", reservation);
 
-        return "redirect:reserveCheckPage"; // 예매 성공 페이지로 리다이렉트
+        return "/reserveCheckPage";
     }
 }

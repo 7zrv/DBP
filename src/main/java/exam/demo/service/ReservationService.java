@@ -23,7 +23,7 @@ public class ReservationService {
     private final ScreenroomService screenroomService;
     private final MovieService movieService;
 
-    public void createReserve(ReserveRequestDto reserveRequestDto, Principal principal) throws IOException {
+    public Reservation createReserve(ReserveRequestDto reserveRequestDto, Principal principal) throws IOException {
 
         Schedule schedule = scheduleService.getScheduleById(reserveRequestDto.getScheduleId());
         Theater theater = theaterService.getTheaterById(reserveRequestDto.getTheaterId());
@@ -43,5 +43,11 @@ public class ReservationService {
         seatService.updateSeatStatus(seat);
 
         reservationRepository.save(reservation);
+
+        return reservation;
+    }
+
+    public Reservation getReservationById(Long id) {
+        return reservationRepository.findById(id).orElse(null);
     }
 }
