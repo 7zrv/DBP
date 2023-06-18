@@ -12,11 +12,9 @@
         <th>Screenroom Name</th>
         <th>Movie Name</th>
         <th>Start Time</th>
-
         <th>Seat Info</th>
     </tr>
     <tr>
-
         <td th:text="${reservation.theaterName}"></td>
         <td th:text="${reservation.screenroomName}"></td>
         <td th:text="${reservation.movieName}"></td>
@@ -24,5 +22,18 @@
         <td th:text="${reservation.seatInfo}"></td>
     </tr>
 </table>
+
+<!-- 예매확정 버튼 -->
+<form th:action="@{/reservation/confirm}" method="post">
+    <input type="hidden" name="reserveId" th:value="${reservation.reserveId}" />
+    <button type="submit">예매 확정</button>
+</form>
+
+<!-- 취소 버튼 -->
+<form th:action="@{/reservation/cancel}" method="post">
+    <input type="hidden" name="reserveId" th:value="${reservation.reserveId}" />
+    <button type="submit">취소</button>
+</form>
+
 </body>
 </html>
