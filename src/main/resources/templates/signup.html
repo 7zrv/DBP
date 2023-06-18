@@ -42,6 +42,7 @@
           <p style="text-align: left; font-size:12px; color:#666"></p>
           <input type="text" id="verificationCode" name="verificationCode" placeholder="인증번호" class="size" required>
           <button type="button" onclick="verifyCode()">인증번호 확인</button>
+          <span id="sessionExpiration">인증번호 유효 시간: 180초</span>
         </label>
         <br>
 
@@ -60,6 +61,7 @@
 <script>
   var isUserNameValidated = false; // 아이디 중복 확인 여부를 나타내는 변수
   var isCodeVerified = false; // 인증번호 확인 여부를 나타내는 변수
+  var remainingTime = 180; // 남은 시간 (초)
 
   function checkDuplicate() {
     var userName = document.getElementById("userName").value;
@@ -100,7 +102,7 @@
     $.ajax({
       url: "/verifyCode", // 인증번호 확인을 수행하는 서버 API의 URL
       type: "POST",
-      data: {verificationCode: verificationCode},
+      data: { verificationCode: verificationCode },
       success: function(response) {
         if (response === true) {
           alert("인증번호 확인 성공!");
@@ -146,6 +148,20 @@
         success: function(response) {
           console.log(response);
           alert('인증번호를 확인해주세요.');
+
+          // 인증번호 전송 후 인증번호 유효시간 카운트 활성화
+          var remainingTime = 180; // 남은 시간 (초)
+
+          // 인증번호 유효 시간 타이머 설정
+          var timer = setInterval(function() {
+            remainingTime--;
+            if (remainingTime < 0) {
+              clearInterval(timer);
+              document.getElementById("sessionExpiration").textContent = "인증번호 유효 시간: 만료";
+            } else {
+              document.getElementById("sessionExpiration").textContent = "인증번호 유효 시간: " + remainingTime + "초";
+            }
+          }, 1000);
         },
         error: function() {
           alert('인증번호를 확인해주세요.');
@@ -153,6 +169,10 @@
       });
     });
   });
+
+
+
+
 </script>
 
 </body>
