@@ -4,6 +4,8 @@ import exam.demo.dto.MemberDto;
 import exam.demo.entity.Member;
 import exam.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -79,17 +81,13 @@ public class MemberController {
         return "redirect:mypage";
     }
 
-    // 회원 수 카운팅 (ID 중복 체크)
-    @PostMapping("/checkMemberId")
+    @PostMapping("/checkDuplicate")
     @ResponseBody
-    public boolean checkMemberId(@RequestBody MemberDto memberDto) {
-        String loginId = memberDto.getUserName();
-        return memberService.checkMemberId(loginId);
+    public boolean checkDuplicateUserName(@RequestParam("userName") String userName) {
+        // 중복 체크 로직을 수행하여 중복 여부를 반환합니다.
+        boolean isDuplicate = memberService.isUserNameDuplicate(userName);
+        return isDuplicate;
     }
-
-
-
-
 
 
 }

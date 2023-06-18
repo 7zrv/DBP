@@ -34,6 +34,9 @@ public class Member implements UserDetails {
     @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    private String phoneNumber;
+
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
@@ -50,6 +53,7 @@ public class Member implements UserDetails {
         this.userName = memberDto.getUserName();
         this.password = memberDto.getPassword();
         this.email = memberDto.getEmail();
+        this.phoneNumber = memberDto.getPhoneNumber();
         this.roleType = RoleType.USER;
     }
 

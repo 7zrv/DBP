@@ -3,32 +3,42 @@
 <head>
   <title>회원가입</title>
   <link rel="stylesheet" href="/css/signupStyle.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div id="con">
   <div id="login">
     <div id="login_form">
-      <form method="post" action="/signup">
+      <form method="post" action="/signup" onsubmit="return validateForm()">
         <h3 class="login" style="letter-spacing:-1px;">회원가입</h3>
         <hr>
         <label for="userName">
           <p style="text-align: left; font-size:12px; color:#666"></p>
           <input type="text" id="userName" name="userName" placeholder="아이디" class="size" required>
-          <p></p>
+          <button type="button" onclick="checkDuplicate()">중복 확인</button>
         </label>
-        <button type="button" id="idCheckBtn" class="btns btn_st5" onclick="checkLoginId();" style="width: 20%; float: right;">중복 확인</button>
+        <br>
+
         <label for="password">
           <p style="text-align: left; font-size:12px; color:#666"></p>
           <input type="password" id="password" name="password" placeholder="비밀번호" class="size" required>
         </label>
+        <br>
 
-        <label>
+        <label for="email">
           <p style="text-align: left; font-size:12px; color:#666"></p>
           <input type="email" id="email" name="email" placeholder="이메일" class="size" required>
         </label>
         <br>
+
+        <label for="phoneNumber">
+          <p style="text-align: left; font-size:12px; color:#666"></p>
+          <input type="text" id="phoneNumber" name="phoneNumber" placeholder="전화번호" class="size" required>
+        </label>
+        <br>
+
         <p>
-          <input type="submit" value="가입하기" class="btn">
+          <input type="submit" value="가입하기" class="btn" id="signupButton">
         </p>
       </form>
       <hr>
@@ -39,37 +49,48 @@
   </div>
 </div>
 
-<!-- JavaScript 라이브러리 -->
-<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-
 <script>
-  function checkLoginId() {
-    const userName = document.getElementById("userName").value;
+  var isUserNameValidated = false; // 아이디 중복 확인 여부를 나타내는 변수
 
-    // Ajax 요청을 통해 서버로 아이디 중복 확인 요청 전송
-    // 예시: jQuery를 사용한 Ajax 요청
+  function checkDuplicate() {
+    var userName = document.getElementById("userName").value;
+    if (userName === "") {
+      alert("아이디를 입력하세요.");
+      return;
+    }
+
+    // AJAX 요청
     $.ajax({
-      url: "/checkMemberId",
+      url: "/checkDuplicate", // 중복 체크를 수행하는 서버 API의 URL
       type: "POST",
-      data: JSON.stringify({ userName: userName }),
-      contentType: "application/json",
+      data: {userName: userName},
       success: function(response) {
-        if (response) {
-          // 아이디가 이미 존재하는 경우
-          alert("이미 사용 중인 아이디입니다.");
+        if (response === true) {
+          alert("중복된 아이디입니다. 다른 아이디를 입력해주세요.");
+          isUserNameValidated = false;
         } else {
-          // 아이디가 존재하지 않는 경우
           alert("사용 가능한 아이디입니다.");
+          isUserNameValidated = true;
         }
       },
-      error: function(xhr, status, error) {
-        // 에러 처리
-        console.error(error);
+      error: function() {
+        alert("중복 체크 요청에 실패했습니다.");
+        isUserNameValidated = false;
       }
     });
   }
 
+  function validateForm() {
+    var userName = document.getElementById("userName").value;
+    var signupButton = document.getElementById("signupButton");
+
+    if (!isUserNameValidated) {
+      alert("아이디 중복 확인을 해주세요.");
+      return false;
+    }
+
+    return true;
+  }
 </script>
 
 </body>
