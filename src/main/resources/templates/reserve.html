@@ -45,9 +45,9 @@
     <input type="text" id="theaterIdInput" name="theaterId" value="">
     <input type="text" id="scheduleIdInput" name="scheduleId" value="">
     <input type="text" id="seatIdInput" name="seatId" value="">
-    <button type="submit">예매하기</button>
 </form>
 
+<button onclick="redirectToReservation()">예매하기</button>
 <script th:inline="javascript">
     function selectTheater(theaterId) {
         const screenItems = document.querySelectorAll('.screen-item');
@@ -129,6 +129,16 @@
         const reservationForm = document.querySelector('#reservationForm');
         reservationForm.scrollIntoView({behavior: "smooth"});
     }
+
+    function redirectToReservation() {
+        var theaterId = document.getElementById('theaterIdInput').value;
+        var scheduleId = document.getElementById('scheduleIdInput').value;
+        var seatId = document.getElementById('seatIdInput').value;
+
+        var url = '/movies/reserveCheckPage/' + theaterId + '/' + scheduleId + '/' + seatId;
+        window.location.href = url;
+    }
+
 
 
 </script>

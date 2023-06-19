@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>예매 정보</title>
+
 </head>
 <body>
 <h1>예매 정보</h1>
@@ -10,30 +11,52 @@
     <tr>
         <th>Theater Name</th>
         <th>Screenroom Name</th>
-        <th>Movie Name</th>
-        <th>Start Time</th>
-        <th>Seat Info</th>
+        <th>Movie Title</th>
+        <th>Movie Time</th>
+        <th>Seat Row</th>
+        <th>Seat Col</th>
     </tr>
     <tr>
-        <td th:text="${reservation.theaterName}"></td>
-        <td th:text="${reservation.screenroomName}"></td>
-        <td th:text="${reservation.movieName}"></td>
-        <td th:text="${reservation.startTime}"></td>
-        <td th:text="${reservation.seatInfo}"></td>
+        <td th:text="${theaterName}"></td>
+        <td th:text="${screenroomName}"></td>
+        <td th:text="${movieTitle}"></td>
+        <td th:text="${movieTime}"></td>
+        <td th:text="${seatRow}"></td>
+        <td th:text="${seatCol}"></td>
     </tr>
 </table>
 
 <!-- 예매확정 버튼 -->
-<form th:action="@{/reservation/confirm}" method="post">
-    <input type="hidden" name="reserveId" th:value="${reservation.reserveId}" />
+<form id="reservationForm" th:action="@{/movies/reservation/confirm}" method="post">
+    <input type="text" id="theaterName" name="theaterName" th:value="${theaterName}" />
+    <input type="text" id="screenroomName" name="screenroomName" th:value="${screenroomName}" />
+    <input type="text" id="movieName" name="movieName" th:value="${movieTitle}" />
+    <input type="text" id="startTime" name="startTime" th:value="${movieTime}" />
+    <input type="text" id="seatInfo" name="seatInfo" th:value="${seatRow + '행 ' + seatCol + '열'}" />
     <button type="submit">예매 확정</button>
 </form>
 
 <!-- 취소 버튼 -->
-<form th:action="@{/reservation/cancel}" method="post">
-    <input type="hidden" name="reserveId" th:value="${reservation.reserveId}" />
+<form th:action="@{/movies/reservation/cancel/{seatId}(seatId=${seatId})}" method="post" >
+    <input type="hidden" />
     <button type="submit">취소</button>
 </form>
 
 </body>
+
+<script>
+    document.getElementById("reservationForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // 폼 제출 기본 동작을 막습니다.
+
+        // AJAX를 사용하여 폼 데이터를 서버로 전송합니다.
+        var formData = new FormData(this);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", this.action);
+        xhr.onload = function() {
+            // 서버 응답을 받은 후 팝업 창을 닫습니다.
+            window.close();
+        };
+        xhr.send(formData);
+    });
+</script>
 </html>
