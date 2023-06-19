@@ -172,9 +172,11 @@
 
         btn.addEventListener('click', () => {
              if(all.style.display != "none"){
+                btn.text = "ALL";
                 all.style.display = "none";
                 my.style.display = "block";
              } else {
+                btn.text = "MY";
                 all.style.display = "block";
                 my.style.display = "none";
              }
