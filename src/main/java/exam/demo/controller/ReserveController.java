@@ -1,9 +1,13 @@
 package exam.demo.controller;
 
+import exam.demo.dto.MovieDto;
+import exam.demo.dto.ReservationDto;
 import exam.demo.dto.ReserveRequestDto;
 import exam.demo.entity.*;
+import exam.demo.repository.SeatRepository;
 import exam.demo.service.*;
 import lombok.RequiredArgsConstructor;
+import net.nurigo.sdk.message.model.Message;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +25,9 @@ public class ReserveController {
     private final ScreenroomService screenRoomService;
     private final ScheduleService scheduleService;
     private final ReservationService reservationService;
+    private final MovieService movieService;
+    private final ScreenroomService screenroomService;
+    private final MemberService memberService;
 
     private final SeatService seatService;
 
@@ -44,12 +51,42 @@ public class ReserveController {
         return seatService.getSeatsByScheduleId(scheduleId);
     }
 
-    @PostMapping("/reserve/check")
-    public String checkReservation(@ModelAttribute ReserveRequestDto reserveRequestDto, Principal principal) throws IOException {
 
-        reservationService.createReserve(reserveRequestDto, principal);
+    @GetMapping("/reserveCheckPage/{theaterId}/{scheduleId}/{seatId}")
+    public String showCheckPage(@PathVariable Long theaterId,
+                                @PathVariable Long scheduleId,
+                                @PathVariable Long seatId, Principal principal,
+                                Model model){
+        Theater theater = theaterService.getTheaterById(theaterId);
+        Schedule schedule = scheduleService.getScheduleById(scheduleId);
+        Movie movie = movieService.getMovieById(schedule.getMovieId());
+        Screenroom screenroom = screenroomService.getScreenRoomById(schedule.getScreenroomId());
+        Seat seat = seatService.getSeatBySeatId(seatId);
+        Member member = memberService.getMemberByUsername(principal.getName());
 
 
-        return "redirect:reserveCheckPage"; // 예매 성공 페이지로 리다이렉트
+        seat.updateSeatStatus("UNAVAILABLE");
+        seatService.updateSeatStatus(seat);
+
+        model.addAttribute("theaterName", theater.getTheaterName());
+        model.addAttribute("screenroomName", screenroom.getScreenroomName());
+        model.addAttribute("movieTitle", movie.getTitle());
+        model.addAttribute("movieTime", schedule.getStartTime());
+        model.addAttribute("seatRow", seat.getSeatRowNumber());
+        model.addAttribute("seatCol", seat.getSeatNumber());
+        model.addAttribute("seat", seat);
+        model.addAttribute("member", member);
+        return "/reserveCheckPage";
     }
+
+
+
+    @PostMapping("/cancelReservation")
+    public String cancelReservation(@RequestParam("reservationId") Long reservationId) {
+        reservationService.deleteReserveById(reservationId);
+        return "redirect:/mypage";
+    }
+
+
+
 }

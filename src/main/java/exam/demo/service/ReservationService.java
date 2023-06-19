@@ -11,37 +11,43 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ReservationService {
-
     private final ReservationRepository reservationRepository;
     private final ScheduleService scheduleService;
     private final TheaterService theaterService;
     private final SeatService seatService;
     private final ScreenroomService screenroomService;
     private final MovieService movieService;
-    public void createReserve(ReserveRequestDto reserveRequestDto, Principal principal) throws IOException {
+    private final MemberService memberService;
 
-        Schedule schedule = scheduleService.getScheduleById(reserveRequestDto.getScheduleId());
-        Theater theater = theaterService.getTheaterById(reserveRequestDto.getTheaterId());
-        Seat seat = seatService.getSeatBySeatId(reserveRequestDto.getSeatId());
-        Screenroom screenroom = screenroomService.getScreenRoomById(schedule.getScreenroomId());
-        Movie movie = movieService.getMovieById(schedule.getMovieId());
+    public Reservation createReserve(ReservationDto reservationDto, Principal principal) throws IOException {
 
-        ReservationDto reservationDto = new ReservationDto();
-        reservationDto.setTheaterName(theater.getTheaterName());
-        reservationDto.setScreenroomName(screenroom.getScreenroomName());
-        reservationDto.setMovieName(movie.getTitle());
-        reservationDto.setStartTime(schedule.getStartTime());
-        reservationDto.setMemberId(principal.getName());
-        reservationDto.setSeatInfo(seat.getSeatRowNumber()+ "행 " + seat.getSeatRowNumber() + "열 ");
+        Member member = memberService.getMemberByUsername(principal.getName());
+        reservationDto.setMemberId(member.getMemberId());
         Reservation reservation = new Reservation(reservationDto);
-        seat.updateSeatStatus("UNAVAILABLE");
-        seatService.updateSeatStatus(seat);
 
         reservationRepository.save(reservation);
+
+        return reservation;
+    }
+
+    public void deleteReserveById(Long reserveId){
+        Reservation reservation = reservationRepository.findByReserveId(reserveId);
+        reservationRepository.delete(reservation);
+
+    }
+
+    public Reservation getReservationById(Long id) {
+        return reservationRepository.findById(id).orElse(null);
+    }
+
+   public List<Reservation> getReserveByMemeberId(Long memeberId) {
+        return reservationRepository.findByMemberId(memeberId);
     }
 }

@@ -2,44 +2,88 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/EditFormStyle.css">
   <title>극장 수정</title>
 </head>
 <body>
 <!-- 극장 수정 폼 -->
-<h2>극장 수정</h2>
-<form th:action="@{'/admin/theater/update/' + ${theater.theaterId}}" method="post">
-  <input type="hidden" name="theaterId" th:value="${theater.theaterId}">
-  <label for="theaterName">극장 이름:</label>
-  <input type="text" name="theaterName" th:value="${theater.theaterName}">
-  <br>
-  <label for="theaterLocal">극장 위치:</label>
-  <input type="text" name="theaterLocal" th:value="${theater.theaterLocal}">
-  <br>
-  <h3>상영 중인 영화 목록 수정</h3>
-  <table>
-    <thead>
-    <tr>
-      <th>영화 ID</th>
-      <th>영화 제목</th>
-      <th>삭제</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- 서버에서 받은 상영 중인 영화 목록을 반복하여 표시하고, 삭제 체크박스를 추가합니다. -->
-    <tr th:each="movie : ${movies}">
-      <td th:text="${movie.movieId}"></td>
-      <td th:text="${movie.title}"></td>
-      <td>
-        <input type="checkbox" th:name="deletedMovies" th:value="${movie.movieId}">
+<div class="editForm">
+  <h2>극장 수정</h2>
+  <form th:action="@{'/admin/theater/update/' + ${theater.theaterId}}" method="post">
+    <input type="hidden" name="theaterId" th:value="${theater.theaterId}">
+    <div class="form-row">
+      <label for="theaterName">극장 이름:</label>
+      <input type="text" id="theaterName" name="theaterName" th:value="${theater.theaterName}">
+    </div>
+    <div class="form-row">
+      <label for="theaterLocal">극장 위치:</label>
+      <input type="text" id="theaterLocal" name="theaterLocal" th:value="${theater.theaterLocal}">
+    </div>
+    <h3>상영 영화 목록</h3>
+    <div class="tableBox">
+      <div class="selectAllBox"><input type="checkbox" id="selectAll">전체 선택</div>
+      <table>
+        <thead>
+          <tr>
+            <th>삭제</th>
+            <th>영화 제목</th>
+            <th>영화 ID</th>
+          </tr>
+        </thead>
+        <tbody>
+        <!-- 서버에서 받은 상영 중인 영화 목록을 반복하여 표시하고, 삭제 체크박스를 추가합니다. -->
+          <tr name="movieBox" th:each="movie : ${movies}">
+            <td>
+              <input type="checkbox" name="deletedMovies" th:value="${movie.movieId}">
+            </td>
+            <td th:text="${movie.title}"></td>
+            <td th:text="${movie.movieId}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <script>
+      const selectAll = document.getElementById("selectAll");
+      const checkboxes = document.getElementsByName("deletedMovies");
+      const boxes = document.getElementsByName("movieBox");
 
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <br>
-  <button type="submit">수정</button>
-</form>
 
+      selectAll.onclick = (event) => {
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = selectAll.checked;
+          if(checkbox.checked)
+            checkbox.parentNode.parentNode.style.opacity = 0.3;
+          else
+            checkbox.parentNode.parentNode.style.opacity = "initial";
+        })
+      };
+
+      checkboxes.forEach((check) => {
+        check.addEventListener('change', function () {
+          var flag = true;
+          checkboxes.forEach((checkbox) => {
+            if(checkbox.checked == false){
+              flag = false;
+              checkbox.parentNode.parentNode.style.opacity = "initial";
+            }
+            else{
+              checkbox.parentNode.parentNode.style.opacity = 0.3;
+            }
+          })
+          if(flag)
+            selectAll.checked = true;
+          else
+            selectAll.checked = false;
+        });
+      });
+    </script>
+    <div class="submit-button">
+      <button type="submit">수정</button>
+      <button type="button" onclick="history.back()">취소</button>
+      <button type="reset">초기화</button>
+    </div>
+  </form>
+</div>
 </body>
 </html>
 

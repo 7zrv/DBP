@@ -20,7 +20,7 @@ public class Reservation {
     private String screenroomName;
     private String movieName;
     private String startTime;
-    private String memberId;
+    private Long memberId;
     private String seatInfo;
 
 

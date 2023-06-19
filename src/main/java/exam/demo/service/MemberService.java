@@ -38,6 +38,11 @@ public class MemberService implements UserDetailsService {
         return optionalMember.orElse(null);
     }
 
+    public Member getMemberByMemberId(Long id){
+        Member member = memberRepository.findByMemberId(id);
+        return member;
+    }
+
 
     //회원탈퇴 메서드
     public void withdrawMember(String username) {
@@ -55,6 +60,12 @@ public class MemberService implements UserDetailsService {
         }
     }
 
+    public void makeTempPassword(String userName, String tempPassword){
+        Member member = getMemberByUsername(userName);
+
+        member.updatePassword(passwordEncoder.encode(tempPassword));
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Member> optionalMember = memberRepository.findByUserName(username);
@@ -65,5 +76,23 @@ public class MemberService implements UserDetailsService {
         }
 
         throw new UsernameNotFoundException("User not found with username: " + username);
+    }
+
+    //회원가입시 아이디 중복확인을 위한 메서드
+    public boolean isUserNameDuplicate(String userName) {
+        Optional<Member> member = memberRepository.findByUserName(userName);
+        return member.isPresent();
+    }
+
+
+    public String findMyIdByEmail(String email){
+        Member member = memberRepository.findMemberByEmail(email);
+        if (member == null) {
+            // 이메일로 등록된 아이디가 없는 경우 처리
+            return null;
+        }
+
+        return member.getUsername();
+
     }
 }

@@ -16,6 +16,7 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -39,8 +40,17 @@ dependencies {
 	implementation 'commons-io:commons-io:2.11.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	//testImplementation 'org.springframework.security:spring-security-test'
+
+	//sms api
+	implementation 'net.nurigo:sdk:4.3.0'
+	//email api
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.2'
+
+	//결제 api
+	implementation 'com.github.iamport:iamport-rest-client-java:0.2.23'
+
+
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
+

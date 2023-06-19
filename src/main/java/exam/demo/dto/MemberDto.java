@@ -9,4 +9,5 @@ public class MemberDto {
     String userName;
     String password;
     String email;
+    String phoneNumber;
 }

@@ -1,60 +1,179 @@
-<!--회원가입 페이지-->
-<!--담당:이정훈 /-->
 <!DOCTYPE html>
-
-<html xmlns:th="http://www.thymeleaf.org" lang = "ko">
-<head><title>회원가입</title>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <title>회원가입</title>
   <link rel="stylesheet" href="/css/signupStyle.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div id="con">
   <div id="login">
-    <div id="login_form"><!--회원가입 폼-->
-      <form method="post" action="/signup">
+    <div id="login_form">
+      <form method="post" action="/signup" onsubmit="return validateForm()">
         <h3 class="login" style="letter-spacing:-1px;">회원가입</h3>
-
         <hr>
-
-        <!-- <span>ID</span> -->
         <label for="userName">
-        <p style="text-align: left; font-size:12px; color:#666"></p>
-
-        <input type="text" id="userName" name="userName" placeholder="아이디" class="size" required>
-        <p></p>
-        </label><!--아이디-->
+          <p style="text-align: left; font-size:12px; color:#666"></p>
+          <input type="text" id="userName" name="userName" placeholder="아이디" class="size" required>
+          <button type="button" onclick="checkDuplicate()">중복 확인</button>
+        </label>
+        <br>
 
         <label for="password">
-          <!-- <span>PW</span> -->
           <p style="text-align: left; font-size:12px; color:#666"></p>
-          <input type="password" id="password" name="password" placeholder="비밀번호" class="size"required>
-        </label><!--비밀번호-->
+          <input type="password" id="password" name="password" placeholder="비밀번호" class="size" required>
+        </label>
+        <br>
 
-        <label>
-          <!-- <span>PW</span> -->
-        <!-- <p style="text-align: left; font-size:12px; color:#666"> </p>
-         <input type="password" placeholder="비밀번호 확인" class="size">
-       </label> < !--비밀번호 확인-->
-        <label>
-          <!-- <span>PW</span> -->
+        <label for="email">
           <p style="text-align: left; font-size:12px; color:#666"></p>
           <input type="email" id="email" name="email" placeholder="이메일" class="size" required>
-        </label> <!--이메일-->
-
+        </label>
         <br>
+
+        <label for="phoneNumber">
+          <p style="text-align: left; font-size:12px; color:#666"></p>
+          <input type="text" id="phoneNumber" name="phoneNumber" placeholder="전화번호" class="size" required>
+          <button id="sendMessageButton">인증번호 전송</button>
+        </label>
+        <br>
+
+        <label for="verificationCode">
+          <p style="text-align: left; font-size:12px; color:#666"></p>
+          <input type="text" id="verificationCode" name="verificationCode" placeholder="인증번호" class="size" required>
+          <button type="button" onclick="verifyCode()">인증번호 확인</button>
+          <span id="sessionExpiration">인증번호 유효 시간: 180초</span>
+        </label>
+        <br>
+
         <p>
-          <input type="submit" value="가입하기" class="btn">
+          <input type="submit" value="가입하기" class="btn" id="signupButton">
         </p>
       </form>
-
       <hr>
       <p class="find">
-        <span><a href="/login" >로그인 페이지로 이동</a></span>
+        <span><a href="/login">로그인 페이지로 이동</a></span>
       </p>
     </div>
-    <div>
-    </div><!--con-->
   </div>
 </div>
+
+<script>
+  var isUserNameValidated = false; // 아이디 중복 확인 여부를 나타내는 변수
+  var isCodeVerified = false; // 인증번호 확인 여부를 나타내는 변수
+  var remainingTime = 180; // 남은 시간 (초)
+
+  function checkDuplicate() {
+    var userName = document.getElementById("userName").value;
+    if (userName === "") {
+      alert("아이디를 입력하세요.");
+      return;
+    }
+
+    // AJAX 요청
+    $.ajax({
+      url: "/checkDuplicate", // 중복 체크를 수행하는 서버 API의 URL
+      type: "POST",
+      data: {userName: userName},
+      success: function(response) {
+        if (response === true) {
+          alert("중복된 아이디입니다. 다른 아이디를 입력해주세요.");
+          isUserNameValidated = false;
+        } else {
+          alert("사용 가능한 아이디입니다.");
+          isUserNameValidated = true;
+        }
+      },
+      error: function() {
+        alert("중복 체크 요청에 실패했습니다.");
+        isUserNameValidated = false;
+      }
+    });
+  }
+
+  function verifyCode() {
+    var verificationCode = document.getElementById("verificationCode").value;
+    if (verificationCode === "") {
+      alert("인증번호를 입력하세요.");
+      return;
+    }
+
+    // AJAX 요청
+    $.ajax({
+      url: "/verifyCode", // 인증번호 확인을 수행하는 서버 API의 URL
+      type: "POST",
+      data: { verificationCode: verificationCode },
+      success: function(response) {
+        if (response === true) {
+          alert("인증번호 확인 성공!");
+          isCodeVerified = true;
+        } else {
+          alert("인증번호 확인 실패!");
+          isCodeVerified = false;
+        }
+      },
+      error: function() {
+        alert("인증번호 확인 요청에 실패했습니다.");
+        isCodeVerified = false;
+      }
+    });
+  }
+
+  function validateForm() {
+    var userName = document.getElementById("userName").value;
+    var signupButton = document.getElementById("signupButton");
+
+    if (!isUserNameValidated) {
+      alert("아이디 중복 확인을 해주세요.");
+      return false;
+    }
+
+    if (!isCodeVerified) {
+      alert("인증번호 확인을 해주세요.");
+      return false;
+    }
+
+    return true;
+  }
+
+  $(document).ready(function() {
+    $('#sendMessageButton').click(function() {
+      var phoneNumber = $('#phoneNumber').val(); // 전화번호 값을 가져옵니다.
+
+      // AJAX 요청
+      $.ajax({
+        url: '/send/certNum',
+        type: 'POST',
+        data: { phoneNumber: phoneNumber }, // 전화번호를 데이터로 전달합니다.
+        success: function(response) {
+          console.log(response);
+          alert('인증번호를 확인해주세요.');
+
+          // 인증번호 전송 후 인증번호 유효시간 카운트 활성화
+          var remainingTime = 180; // 남은 시간 (초)
+
+          // 인증번호 유효 시간 타이머 설정
+          var timer = setInterval(function() {
+            remainingTime--;
+            if (remainingTime < 0) {
+              clearInterval(timer);
+              document.getElementById("sessionExpiration").textContent = "인증번호 유효 시간: 만료";
+            } else {
+              document.getElementById("sessionExpiration").textContent = "인증번호 유효 시간: " + remainingTime + "초";
+            }
+          }, 1000);
+        },
+        error: function() {
+          alert('인증번호를 확인해주세요.');
+        }
+      });
+    });
+  });
+
+
+
+
+</script>
+
 </body>
 </html>
-
