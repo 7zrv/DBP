@@ -71,6 +71,8 @@ a { text-decoration: none; color: black; }
   align-items: flex-start;
   margin : auto 80px;
   justify-content: center;
+  /**padding-bottom:20px;**/
+  /**border-bottom: 1px solid #ddd;**/
 }
 
 
@@ -196,6 +198,7 @@ a { text-decoration: none; color: black; }
 /**리뷰 시작**/
 .movie-reviews {
     margin : auto 80px;
+    /**max-width:1000px;**/
     justify-content: center;
 }
 
@@ -203,6 +206,22 @@ a { text-decoration: none; color: black; }
     list-style: none;
     padding:0;
     border: 1.5px solid #e8ebee;
+}
+
+.myBtn {
+    padding: 0px 10px;
+    float: right;
+    color: black;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+#myReview {
+    display: none;
+}
+
+.review-none, .my-review-none {
+    text-align: center;
 }
 
 .review-box li {

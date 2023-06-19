@@ -14,6 +14,7 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -108,7 +109,7 @@ public class SmsController {
     }
 
 
-    @PostMapping("/movies/reservation/confirm")
+   /* @PostMapping("/movies/reservation/confirm")
     public SingleMessageSentResponse sendReserveSms(ReservationDto reservationDto, Principal principal) throws IOException {
 
         Reservation reservation = reservationService.createReserve(reservationDto, principal);
@@ -117,7 +118,7 @@ public class SmsController {
         Message message = new Message();
         message.setFrom("01051636609");
         message.setTo(member.getPhoneNumber()); // 전달받은 전화번호를 수신번호로 설정합니다.
-        message.setText("[예매정보]\n "+reservation.getReserveId()+"\n "+reservation.getTheaterName()+" \n "+reservation.getScreenroomName()+" \n "+reservation.getMovieName()+" \n"+reservation.getStartTime()+"");
+        message.setText("[예매정보]\n "+reservation.getReserveId()+"\n "+reservation.getTheaterName()+" \n "+reservation.getScreenroomName()+" \n "+reservation.getMovieName()+" \n "+reservation.getSeatInfo()+" \n"+reservation.getStartTime()+"");
 
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
         System.out.println(response);
@@ -125,5 +126,23 @@ public class SmsController {
         return response;
     }
 
+    */
+
+    @PostMapping("/send/reserve/sms")
+    public SingleMessageSentResponse sendReserveSms(HttpSession session) throws IOException {
+        // 세션에서 reservation과 member 값을 가져옵니다.
+        Reservation reservation = (Reservation) session.getAttribute("reservation");
+        Member member = (Member) session.getAttribute("member");
+
+        Message message = new Message();
+        message.setFrom("01051636609");
+        message.setTo(member.getPhoneNumber());
+        message.setText("[예매정보]\n" + reservation.getReserveId() + "\n" + reservation.getTheaterName() + " \n" + reservation.getScreenroomName() + " \n" + reservation.getMovieName() + " \n" + reservation.getSeatInfo() + " \n" + reservation.getStartTime());
+
+        SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
+        System.out.println(response);
+
+        return response;
+    }
 
 }
