@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>예매 성공</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: "/send/reserve/sms",
+            success: function(response) {
+                window.close();
+            },
+            error: function(error) {
+                window.close();
+            }
+        });
+    });
+</script>
+
+</head>
+<body>
+<h1>예매 성공</h1>
+<p>예매가 성공적으로 완료되었습니다.</p>
+</body>
+</html>

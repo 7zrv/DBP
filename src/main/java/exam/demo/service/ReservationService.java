@@ -39,6 +39,7 @@ public class ReservationService {
 
     public void deleteReserveById(Long reserveId){
         Reservation reservation = reservationRepository.findByReserveId(reserveId);
+
         reservationRepository.delete(reservation);
 
     }
