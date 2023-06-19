@@ -60,12 +60,18 @@
 </div>
 </div>
 <script th:inline="javascript">
-    /*<![CDATA[*/
     function openPopup(movieId) {
+
+        var loggedIn = /*[[${session.loggedIn}]]*/ false;
+
+        if (!loggedIn) {
+            alert('예매하기를 하기 위해서는 로그인이 필요합니다.');
+            return;
+        }
+
         var url = /*[[@{/movies/reserve/}]]*/ 'reserve';
         window.open(url + movieId, 'newwindow', 'width=600, height=600');
     }
-    /*]]>*/
 </script>
 </body>
 </html>

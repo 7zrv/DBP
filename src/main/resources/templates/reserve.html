@@ -11,7 +11,7 @@
     <div class="theater-list">
         <h2>영화관 목록</h2>
         <ul>
-            <li th:each="theater : ${movieTheaters}" class="theater-item" th:onclick="'selectTheater(\'' + ${theater.theaterId} + '\')'">
+            <li th:each="theater    : ${movieTheaters}" class="theater-item" th:onclick="'selectTheater(\'' + ${theater.theaterId} + '\')'">
                 <p>영화관 이름: <span th:text="${theater.theaterName}"></span></p>
                 <p>영화관 위치: <span th:text="${theater.theaterLocal}"></span></p>
                 <hr>
@@ -35,19 +35,19 @@
     </div>
 </div>
 
-<form id="reservationForm" action="/movies/reserve/check" method="post">
-    <input type="text" id="theaterIdInput" name="theaterId" value="">
-    <input type="text" id="scheduleIdInput" name="scheduleId" value="">
-    <input type="text" id="seatIdInput" name="seatId" value="">
-    <button type="submit">예매하기</button>
-</form>
-
 <div class="seat-list">
     <h2>좌석 목록</h2>
     <div id="seatList">
     </div>
 </div>
 
+<form id="reservationForm" action="/movies/reserve/check" method="post">
+    <input type="text" id="theaterIdInput" name="theaterId" value="">
+    <input type="text" id="scheduleIdInput" name="scheduleId" value="">
+    <input type="text" id="seatIdInput" name="seatId" value="">
+</form>
+
+<button onclick="redirectToReservation()">예매하기</button>
 <script th:inline="javascript">
     function selectTheater(theaterId) {
         const screenItems = document.querySelectorAll('.screen-item');
@@ -61,19 +61,22 @@
         });
         const screenList = document.querySelector('.screen-list');
         screenList.classList.add('show');
+        screenList.scrollIntoView({behavior: "smooth"});
 
-        // Set theater ID input value
         const theaterIdInput = document.getElementById('theaterIdInput');
         theaterIdInput.value = theaterId;
     }
 
     function selectSchedule(scheduleId) {
-        // Set schedule ID input value
         const scheduleIdInput = document.getElementById('scheduleIdInput');
         scheduleIdInput.value = scheduleId;
 
-        // Fetch seats by schedule ID
+        const seatListContainer = document.querySelector('.seat-list');
+        seatListContainer.scrollIntoView({behavior: "smooth"});
+
         fetchSeats(scheduleId);
+
+
     }
 
     function fetchSeats(scheduleId) {
@@ -82,6 +85,7 @@
             .then(data => {
                 const seatList = document.getElementById('seatList');
                 seatList.innerHTML = '';
+
 
                 data.forEach(seat => {
                     const seatItem = document.createElement('div');
@@ -102,8 +106,6 @@
                     seatList.appendChild(seatItem);
                 });
 
-                const seatListContainer = document.querySelector('.seat-list');
-                seatListContainer.classList.add('show');
             })
             .catch(error => console.error('Error:', error));
     }
@@ -123,7 +125,20 @@
 
         const selectedSeat = document.querySelector('.seat-item[data-seat-id="' + seat.seatId + '"]');
         selectedSeat.classList.add('selected');
+
+        const reservationForm = document.querySelector('#reservationForm');
+        reservationForm.scrollIntoView({behavior: "smooth"});
     }
+
+    function redirectToReservation() {
+        var theaterId = document.getElementById('theaterIdInput').value;
+        var scheduleId = document.getElementById('scheduleIdInput').value;
+        var seatId = document.getElementById('seatIdInput').value;
+
+        var url = '/movies/reserveCheckPage/' + theaterId + '/' + scheduleId + '/' + seatId;
+        window.location.href = url;
+    }
+
 
 
 </script>

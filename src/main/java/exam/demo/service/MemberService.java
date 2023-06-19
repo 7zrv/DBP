@@ -38,6 +38,11 @@ public class MemberService implements UserDetailsService {
         return optionalMember.orElse(null);
     }
 
+    public Member getMemberByMemberId(Long id){
+        Member member = memberRepository.findByMemberId(id);
+        return member;
+    }
+
 
     //회원탈퇴 메서드
     public void withdrawMember(String username) {

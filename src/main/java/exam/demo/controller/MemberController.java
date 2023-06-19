@@ -2,7 +2,9 @@ package exam.demo.controller;
 
 import exam.demo.dto.MemberDto;
 import exam.demo.entity.Member;
+import exam.demo.entity.Reservation;
 import exam.demo.service.MemberService;
+import exam.demo.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpSession;
@@ -39,6 +42,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
+    private final ReservationService reservationService;
 
 
     @GetMapping("/signup")
@@ -78,7 +82,9 @@ public class MemberController {
     public String myPage(Model model, Principal principal) {
         String username = principal.getName();
         Member member = memberService.getMemberByUsername(username);
+        List<Reservation> reservations = reservationService.getReserveByMemeberId(member.getMemberId());
         model.addAttribute("member", member);
+        model.addAttribute("reservations", reservations);
         return "mypage";
     }
 

@@ -1,0 +1,206 @@
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'NanumSquareNeo-Variable';
+    background-color: #f8f8f8;
+    padding: 10px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#theaterIdInput,
+#scheduleIdInput,
+#seatIdInput {
+    display: none;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;  /* 변경된 부분 */
+    justify-content: space-between;
+    align-items: start;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.theater-list, .screen-list {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    transition: all 0.3s ease-in-out;
+    overflow: auto;
+    max-height: 500px;
+}
+
+.theater-list:hover, .screen-list:hover {
+    border: 1px solid #ccc;
+}
+
+.theater-item, .screen-item {
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.theater-item p, .screen-item p {
+    margin: 0 0 5px;
+    color: #555;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: #ddd;
+    margin: 10px 0;
+}
+
+.seat-item {
+    display: inline-block;
+    margin: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    line-height: 30px;
+    text-align: center;
+    color: #FFF;
+    transition: all 0.3s ease-in-out;
+}
+
+.seat-item.available {
+    background-color: #4caf50;
+}
+
+.seat-item.unavailable {
+    background-color: #f44336;
+}
+
+.seat-item.selected {
+    background-color: #ff9800;
+}
+
+.seat-item.available:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    background: #f8f8f8;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+input[type="text"] {
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+input[type="text"]:focus {
+    border-color: #4caf50;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    background-color: gainsboro;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    padding: 0px 0px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    font-size: 10px;
+}
+
+button:hover {
+    background-color: green;
+    color: white;
+}
+
+.seat-list {
+    margin-top: 30px;
+    width: 400px;
+    padding: 20px;
+    background-color: #FFF;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.seat-list.show {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    gap: 5px;
+    padding: 20px;
+}
+
+.theater-list, .screen-list, .seat-list {
+    width: 90%;
+    max-width: 500px;
+}
+
+/* 추가된 CSS 코드 */
+
+.theater-item.selected, .screen-item.selected {
+    background-color: #f0f0f0;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+input[type="text"] {
+    width: 80%;
+    margin-bottom: 10px;
+}
+
+button {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.loading-indicator {
+    display: none;
+    margin: auto;
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (min-width: 768px) {
+    .theater-list, .screen-list, .seat-list {
+        width: 70%;
+    }
+}

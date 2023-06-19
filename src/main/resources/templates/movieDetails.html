@@ -40,7 +40,8 @@
     <div class="movie-info">
         <div class="movie-element">
             <h2 class="movie-title" th:text="${movie.title}"></h2>
-            <a th:href="@{/movies/reserve/{id}(id=${movie.movieId})}" class="reserve-button">예매하기</a>
+<!--            <a th:href="@{/movies/reserve/{id}(id=${movie.movieId})}" class="reserve-button">예매하기</a>-->
+            <a href="javascript:void(0);" th:onclick="'openPopup(' + ${movie.movieId} + ');'" class="reserve-button">예매하기</a>
             <a th:href="@{/movies/{id}/reviews/new(id=${movie.movieId})}" th:if="${session.loggedIn}" class="review-button">한줄리뷰</a>
             <a th:href="@{/movies/{id}/delete(id=${movie.movieId})}" th:if="${#request.isUserInRole('ADMIN')}" class="review-button">영화삭제</a>
             <a th:href="@{/movies/{id}/modify(id=${movie.movieId})}" th:if="${#request.isUserInRole('ADMIN')}" class="review-button">영화정보 수정</a>
@@ -181,6 +182,12 @@
     </script>
 </div>
 
+<script th:inline="javascript">
+    function openPopup(movieId) {
+        var url = /*[[@{/movies/reserve/}]]*/ 'reserve';
+        window.open(url + movieId, 'newwindow', 'width=600, height=600');
+    }
+</script>
 
 </body>
 </html>

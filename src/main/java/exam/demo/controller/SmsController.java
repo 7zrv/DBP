@@ -1,9 +1,11 @@
 package exam.demo.controller;
 
+import exam.demo.dto.ReservationDto;
 import exam.demo.entity.Member;
 
+import exam.demo.entity.Reservation;
 import exam.demo.service.MemberService;
-import lombok.RequiredArgsConstructor;
+import exam.demo.service.ReservationService;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.security.Principal;
+import java.util.Optional;
 import java.util.Random;
 
 @Controller
@@ -23,9 +28,11 @@ public class SmsController {
 
     final DefaultMessageService messageService;
     final MemberService memberService;
+    final ReservationService reservationService;
 
-    public SmsController(MemberService memberService) {
+    public SmsController(MemberService memberService, ReservationService reservationService) {
         this.memberService = memberService;
+        this.reservationService = reservationService;
         // 반드시 계정 내 등록된 유효한 API 키, API Secret Key를 입력해주셔야 합니다!
         this.messageService = NurigoApp.INSTANCE.initialize("NCS91UYD0KMJ6WHE", "NPESTXLDHG9NDDCYIJQAXVGFGL6JN5VL", "https://api.coolsms.co.kr");
     }
@@ -99,4 +106,24 @@ public class SmsController {
 
         return "login"; // 비밀번호를 찾은 후에 보여줄 페이지의 Thymeleaf 템플릿 이름을 반환합니다.
     }
+
+
+    @PostMapping("movies/reservation/confirm")
+    public SingleMessageSentResponse sendReserveSms(ReservationDto reservationDto, Principal principal) throws IOException {
+
+        Reservation reservation = reservationService.createReserve(reservationDto, principal);
+        Member member = memberService.getMemberByMemberId(reservation.getMemberId());
+
+        Message message = new Message();
+        message.setFrom("01051636609");
+        message.setTo(member.getPhoneNumber()); // 전달받은 전화번호를 수신번호로 설정합니다.
+        message.setText("[예매정보]\n "+reservation.getReserveId()+"\n "+reservation.getTheaterName()+" \n "+reservation.getScreenroomName()+" \n "+reservation.getMovieName()+" \n"+reservation.getStartTime()+"");
+
+        SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
+        System.out.println(response);
+
+        return response;
+    }
+
+
 }
