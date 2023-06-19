@@ -10,7 +10,7 @@ public class SeatDto {
     private int seatNumber;
     private int rowNumber;
     private String status;
-    private int price;
+    private int price = 1;
 
 
 }

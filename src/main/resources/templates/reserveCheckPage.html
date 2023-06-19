@@ -15,6 +15,7 @@
         <th>Movie Time</th>
         <th>Seat Row</th>
         <th>Seat Col</th>
+        <th>결제 금액</th>
     </tr>
     <tr>
         <td th:text="${theaterName}"></td>
@@ -23,6 +24,7 @@
         <td th:text="${movieTime}"></td>
         <td th:text="${seatRow}"></td>
         <td th:text="${seatCol}"></td>
+        <td th:text="${seat.price}"></td>
     </tr>
 </table>
 
@@ -45,6 +47,11 @@
 </body>
 
 <script>
+    const IMP = window.IMP; // 생략 가능
+    IMP.init("imp47322142"); // 예: imp00000000a
+
+
+
     document.getElementById("reservationForm").addEventListener("submit", function(event) {
         event.preventDefault(); // 폼 제출 기본 동작을 막습니다.
 
@@ -59,4 +66,8 @@
         xhr.send(formData);
     });
 </script>
+
+<%--아임포트 라이브러리--%>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 </html>

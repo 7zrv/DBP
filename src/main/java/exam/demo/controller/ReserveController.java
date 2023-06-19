@@ -71,6 +71,7 @@ public class ReserveController {
         model.addAttribute("movieTime", schedule.getStartTime());
         model.addAttribute("seatRow", seat.getSeatRowNumber());
         model.addAttribute("seatCol", seat.getSeatNumber());
+        model.addAttribute("seat", seat);
 
         return "/reserveCheckPage";
     }
