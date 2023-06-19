@@ -108,7 +108,7 @@ public class SmsController {
     }
 
 
-    @PostMapping("movies/reservation/confirm")
+    @PostMapping("/movies/reservation/confirm")
     public SingleMessageSentResponse sendReserveSms(ReservationDto reservationDto, Principal principal) throws IOException {
 
         Reservation reservation = reservationService.createReserve(reservationDto, principal);
