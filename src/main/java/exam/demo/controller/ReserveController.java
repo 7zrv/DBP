@@ -27,6 +27,7 @@ public class ReserveController {
     private final ReservationService reservationService;
     private final MovieService movieService;
     private final ScreenroomService screenroomService;
+    private final MemberService memberService;
 
     private final SeatService seatService;
 
@@ -54,13 +55,15 @@ public class ReserveController {
     @GetMapping("/reserveCheckPage/{theaterId}/{scheduleId}/{seatId}")
     public String showCheckPage(@PathVariable Long theaterId,
                                 @PathVariable Long scheduleId,
-                                @PathVariable Long seatId,
+                                @PathVariable Long seatId, Principal principal,
                                 Model model){
         Theater theater = theaterService.getTheaterById(theaterId);
         Schedule schedule = scheduleService.getScheduleById(scheduleId);
         Movie movie = movieService.getMovieById(schedule.getMovieId());
         Screenroom screenroom = screenroomService.getScreenRoomById(schedule.getScreenroomId());
         Seat seat = seatService.getSeatBySeatId(seatId);
+        Member member = memberService.getMemberByUsername(principal.getName());
+
 
         seat.updateSeatStatus("UNAVAILABLE");
         seatService.updateSeatStatus(seat);
@@ -72,7 +75,7 @@ public class ReserveController {
         model.addAttribute("seatRow", seat.getSeatRowNumber());
         model.addAttribute("seatCol", seat.getSeatNumber());
         model.addAttribute("seat", seat);
-
+        model.addAttribute("member", member);
         return "/reserveCheckPage";
     }
 
