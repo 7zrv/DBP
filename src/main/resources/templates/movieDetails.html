@@ -115,8 +115,9 @@
         <strong th:if="${#lists.isEmpty(reviews)}">0.0</strong>
         <span>점</span>
         <span th:text="'('+${#lists.size(reviews)}+'명)'">(0명)</span>
+        <a class="myBtn" th:if="${session.loggedIn}">MY</a>
     </div>
-    <ul class="review-box">
+    <ul class="review-box" id="allReview">
         <li th:each="review : ${reviews}">
             <div class="rating-control">
                 <div class="rating-box">
@@ -137,7 +138,50 @@
             <p class="review-author" th:if="${loggedInUserId == review.memberId.toString()} or ${#request.isUserInRole('ADMIN')}" th:text="${review.userName}"></p>
             <p class="review-author" th:unless="${loggedInUserId == review.memberId.toString()} or ${#request.isUserInRole('ADMIN')}" th:text="'사용자' + ${review.memberId}"></p>
         </li>
+        <p class="review-none" th:if="${#lists.isEmpty(reviews)}">등록된 평점이 없습니다.</p>
     </ul>
+    <ul class="review-box" id="myReview">
+        <li th:each="review : ${reviews}" th:if="${loggedInUserId == review.memberId.toString()}">
+            <div class="rating-control">
+                <div class="rating-box">
+                    <div class="rating-star">
+                        ★★★★★
+                        <span th:style="'width:'+${#numbers.formatDecimal(review.rating * 10, 1, 0)}+'%'">★★★★★</span>
+                    </div>
+                    <span class="rating-value" th:text="${review.rating}"></span>
+                </div>
+                <div class="control-button">
+                    <a th:href="@{/movies/{movieId}/reviews/{reviewId}/modify(movieId=${movie.movieId}, reviewId=${review.review_id})}" class="btn btn-sm btn-danger">수정</a>
+                    <a th:href="@{/movies/{movieId}/reviews/{reviewId}/delete(movieId=${movie.movieId}, reviewId=${review.review_id})}" class="btn btn-sm btn-danger">삭제</a>
+                </div>
+            </div>
+            <p class="review-content" th:text="${review.content}"></p>
+            <p class="review-author" th:text="${review.userName}"></p>
+        </li>
+        <p class="my-review-none" style="display: none;">등록된 내 평점이 없습니다.</p>
+    </ul>
+    <script>
+        const btn = document.querySelector('.myBtn');
+        const none = document.querySelector('.my-review-none');
+        const all = document.getElementById("allReview");
+        const my = document.getElementById("myReview");
+        const myCnt = my.childElementCount;
+        if(myCnt <= 1){
+            none.style.display = "block";
+        }
+
+        btn.addEventListener('click', () => {
+             if(all.style.display != "none"){
+                btn.text = "ALL";
+                all.style.display = "none";
+                my.style.display = "block";
+             } else {
+                btn.text = "MY";
+                all.style.display = "block";
+                my.style.display = "none";
+             }
+        });
+    </script>
 </div>
 
 <script th:inline="javascript">

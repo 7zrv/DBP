@@ -2,18 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
   <title>아이디 찾기</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/loginstyle.css">
 </head>
 <body>
-<h3>아이디 찾기</h3>
-<form th:action="@{/findMyId}" method="post">
-  <label for="email">가입시 이용한 이메일:</label>
-  <input type="email" id="email" name="email" required>
-  <input type="submit" value="아이디 찾기">
-</form>
-<p class="find">
-  <span><a href="/findMyPassword">비밀번호 찾기</a></span>
-  <span><a href="/signup">회원가입</a></span>
-</p>
+<div id="con">
+  <div id="login">
+    <div id="login_form">
+        <h3 class="login" style="letter-spacing:-1px;">아이디 찾기</h3>
+
+        <hr>
+
+          <form th:action="@{/findMyId}" method="post">
+            <p style="text-align: left; font-size:12px; color:#666"></p>
+          <label for="email">가입시 이용한 이메일:
+          <input type="email" id="email" name="email" required>
+            <p>
+            <input type="submit" value="아이디 찾기" class="btn">
+            </p>
+          </label>
+          </form>
+        <hr>
+        <p class="find">
+          <span><a href="/findMyPassword">비밀번호 찾기</a></span>
+          <span><a href="/signup">회원가입</a></span>
+        </p>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

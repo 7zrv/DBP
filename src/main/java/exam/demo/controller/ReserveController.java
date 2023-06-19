@@ -8,10 +8,14 @@ import exam.demo.repository.SeatRepository;
 import exam.demo.service.*;
 import lombok.RequiredArgsConstructor;
 import net.nurigo.sdk.message.model.Message;
+import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
+import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
@@ -79,6 +83,33 @@ public class ReserveController {
         return "/reserveCheckPage";
     }
 
+
+    @PostMapping("/reservation/confirm")
+    public String makeReserve(ReservationDto reservationDto, Principal principal, HttpSession session, Model model) throws IOException {
+        Reservation reservation = reservationService.createReserve(reservationDto, principal);
+        Member member = memberService.getMemberByMemberId(reservation.getMemberId());
+
+        session.setAttribute("reservation", reservation);
+        session.setAttribute("member", member);
+
+        model.addAttribute("reservation", reservation);
+        model.addAttribute("member", member);
+
+        return "redirect:/movies/success-reserve";
+    }
+
+    @GetMapping("/success-reserve")
+    public String successReservePage(HttpSession session, Model model) {
+
+        Reservation reservation = (Reservation) session.getAttribute("reservation");
+        Member member = (Member) session.getAttribute("member");
+
+        // 모델에 데이터를 추가합니다.
+        model.addAttribute("reservation", reservation);
+        model.addAttribute("member", member);
+
+        return "success-reserve"; // success-reserve에 해당하는 HTML 템플릿을 생성하세요.
+    }
 
 
     @PostMapping("/cancelReservation")
