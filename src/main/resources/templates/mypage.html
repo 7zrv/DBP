@@ -8,52 +8,65 @@
     <title>My Page</title>
 </head>
 <body>
-<div id="con">
-    <div id="mypage">
-        <div id="mypage_form">
-            <form method="post" action="mypageProc">
-                <h1 class="mypage" style="letter-spacing:-1px;">마이페이지</h1>
-                <hr>
-                <label>
-                    <p>아이디: <span th:text="${member.username}" class="size"></span></p>
-                    <p>이메일: <span th:text="${member.email}" class="size"></span></p>
-                </label>
-            </form>
+<div id="mypage">
+    <div id="mypage_form">
+        <form method="post" action="mypageProc">
+            <h1 class="mypage" style="letter-spacing:-1px;">마이페이지</h1>
+            <hr>
+            <div class="form-row">
+                <label>아이디:</label>
+                <span th:text="${member.username}" class="size"></span>
+            </div>
+            <div class="form-row">
+                <label>이메일: </label>
+                <span th:text="${member.email}" class="size"></span>
+            </div>
+        </form>
 
-            <form th:action="@{/changePassword}" method="post">
+        <form th:action="@{/changePassword}" method="post">
+            <div class="form-row">
                 <label for="currentPassword">기존 비밀번호:</label>
                 <input type="password" id="currentPassword" name="currentPassword" class="size2"><br><br>
+            </div>
+            <div class="form-row">
                 <label for="newPassword">새 비밀번호:</label>
                 <input type="password" id="newPassword" name="newPassword" class="size2"><br><br>
-                <input type="submit" value="비밀번호 변경" class="btn">
-            </form>
+            </div>
+            <input type="submit" value="비밀번호 변경" class="btn">
+        </form>
 
-            <hr>
-            <a th:href="@{/withdraw}" onclick="return confirm('정말로 회원 탈퇴하시겠습니까?')">회원 탈퇴</a>
-
-            <hr>
-            <h2>예매 내역</h2>
+        <hr>
+        <h2>예매 내역</h2>
+        <div class="tableBox" th:if="${#lists.isEmpty(reservations)}" style="background-color:#fff;">예매 내역이 없습니다.</div>
+        <div class="tableBox" th:unless="${#lists.isEmpty(reservations)}">
             <table>
-                <tr>
-                    <th>영화 제목</th>
-                    <th>영화관</th>
-                    <th>상영관</th>
-                    <th>상영 시간</th>
-                </tr>
-                <tr th:each="reservation : ${reservations}">
-                    <td th:text="${reservation.movieName}"></td>
-                    <td th:text="${reservation.theaterName}"></td>
-                    <td th:text="${reservation.screenroomName}"></td>
-                    <td th:text="${reservation.startTime}"></td>
-                    <td>
-                        <form th:action="@{/movies/cancelReservation}" method="post">
-                            <input type="hidden" name="reservationId" th:value="${reservation.reserveId}" />
-                            <button type="submit">예매 취소</button>
-                        </form>
-                    </td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>영화 제목</th>
+                        <th>영화관</th>
+                        <th>상영관</th>
+                        <th>상영 시간</th>
+                        <th>예매</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="reservation : ${reservations}">
+                        <td th:text="${reservation.movieName}"></td>
+                        <td th:text="${reservation.theaterName}"></td>
+                        <td th:text="${reservation.screenroomName}"></td>
+                        <td th:text="${reservation.startTime}"></td>
+                        <td>
+                            <form th:action="@{/movies/cancelReservation}" method="post">
+                                <input type="hidden" name="reservationId" th:value="${reservation.reserveId}" />
+                                <button type="submit" class="reserveBtn">취소</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
+        <hr>
+        <a th:href="@{/withdraw}" onclick="return confirm('정말로 회원 탈퇴하시겠습니까?')">회원 탈퇴</a>
     </div>
 </div>
 </body>
