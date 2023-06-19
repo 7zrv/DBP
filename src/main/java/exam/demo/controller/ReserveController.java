@@ -77,14 +77,11 @@ public class ReserveController {
 
 
 
-    @PostMapping("/reservation/cancel/{seatId}")
-    public String cancelReservation(@PathVariable("seatId") Long seatId) {
-        Seat seat = seatService.getSeatBySeatId(seatId);
-        seat.updateSeatStatus("AVAILABLE");
-        seatService.updateSeatStatus(seat);
-        return "close-page";
+    @PostMapping("/cancelReservation")
+    public String cancelReservation(@RequestParam("reservationId") Long reservationId) {
+        reservationService.deleteReserveById(reservationId);
+        return "redirect:/mypage";
     }
-
 
 
 

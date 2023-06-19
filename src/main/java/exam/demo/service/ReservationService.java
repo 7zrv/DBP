@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,13 +37,17 @@ public class ReservationService {
         return reservation;
     }
 
-    public void deleteReserve(Reservation reservation){
-
+    public void deleteReserveById(Long reserveId){
+        Reservation reservation = reservationRepository.findByReserveId(reserveId);
         reservationRepository.delete(reservation);
 
     }
 
     public Reservation getReservationById(Long id) {
         return reservationRepository.findById(id).orElse(null);
+    }
+
+   public List<Reservation> getReserveByMemeberId(Long memeberId) {
+        return reservationRepository.findByMemberId(memeberId);
     }
 }
