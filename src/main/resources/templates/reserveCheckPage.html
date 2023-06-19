@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>예매 정보</title>
+    <link rel="stylesheet" href="/css/reserveCheckStyle.css">
 
     <script
             type="text/javascript"
@@ -17,15 +18,17 @@
 <body>
 <h1>예매 정보</h1>
 <table>
+
     <tr>
-        <th>Theater Name</th>
-        <th>Screenroom Name</th>
-        <th>Movie Title</th>
-        <th>Movie Time</th>
-        <th>Seat Row</th>
-        <th>Seat Col</th>
+        <th>영화관</th>
+        <th>상영관</th>
+        <th>영화</th>
+        <th>상영 시간</th>
+        <th>좌석 열</th>
+        <th>좌석 행</th>
         <th>결제 금액</th>
     </tr>
+
     <tr>
         <td th:text="${theaterName}"></td>
         <td th:text="${screenroomName}"></td>
@@ -39,11 +42,11 @@
 
 <!-- 예매확정 버튼 -->
 <form id="reservationForm" th:action="@{/movies/reservation/confirm}" method="post">
-    <input type="text" id="theaterName" name="theaterName" th:value="${theaterName}" />
-    <input type="text" id="screenroomName" name="screenroomName" th:value="${screenroomName}" />
-    <input type="text" id="movieName" name="movieName" th:value="${movieTitle}" />
-    <input type="text" id="startTime" name="startTime" th:value="${movieTime}" />
-    <input type="text" id="seatInfo" name="seatInfo" th:value="${seatRow + '행 ' + seatCol + '열'}" />
+    <input type="hidden" id="theaterName" name="theaterName" th:value="${theaterName}" />
+    <input type="hidden" id="screenroomName" name="screenroomName" th:value="${screenroomName}" />
+    <input type="hidden" id="movieName" name="movieName" th:value="${movieTitle}" />
+    <input type="hidden" id="startTime" name="startTime" th:value="${movieTime}" />
+    <input type="hidden" id="seatInfo" name="seatInfo" th:value="${seatRow + '행 ' + seatCol + '열'}" />
 </form>
 
 

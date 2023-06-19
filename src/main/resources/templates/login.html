@@ -14,7 +14,6 @@
             <form method="post" action="/loginProc">
                 <h3 class="login" style="letter-spacing:-1px;">로그인</h3>
 
-
                 <hr>
                 <label>
                     <!-- <span>ID</span> -->
@@ -38,12 +37,20 @@
             </form>
             <hr>
             <p class="find">
-                <span><a href="/findMyId">아이디 찾기</a></span>
-                <span><a href="/findMyPassword">비밀번호 찾기</a></span>
+                <span><a href="#" onclick="openPopup('/findMyId')">아이디 찾기</a></span>
+                <span><a href="#" onclick="openPopup('/findMyPassword')">비밀번호 찾기</a></span>
                 <span><a href="/signup">회원가입</a></span>
             </p>
         </div>
-    </div><!--con-->
+        <div>
+        </div>
+    </div>
 </div>
+
+<script>
+    function openPopup(url) {
+        window.open(url, 'popup', 'width=600,height=400');
+    }
+</script>
 </body>
 </html>
