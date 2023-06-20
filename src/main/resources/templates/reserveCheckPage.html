@@ -55,13 +55,19 @@
 <!-- 취소 버튼 -->
 <form th:action="@{/movies/reservation/cancel/{seatId}(seatId=${seatId})}" method="post" >
     <input type="hidden" />
-    <button type="submit">취소</button>
+    <button type="submit" onclick="closeWindow()">취소</button>
 </form>
 
 </body>
 
 <script th:inline="javascript">
     /*<![CDATA[*/
+    function closeWindow() {
+        window.close(); // Close the window
+    }
+    
+
+
     const IMP = window.IMP;
     IMP.init("imp47322142");
 
