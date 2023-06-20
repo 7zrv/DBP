@@ -4,7 +4,7 @@ spring:
     username: root
     url: jdbc:mariadb://localhost:3306/DBP
     #insert your db password
-    password:
+    password: tjwls970307
   jpa:
     properties:
       hibernate:
@@ -20,12 +20,23 @@ spring:
   servlet:
     multipart:
       max-file-size: 20MB
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${"4014133@gmail.com"}
+    password: ${"oyipcchjfuazvfid"}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
 
 server:
   servlet:
     session:
-      timeout: 1800 # ?? ???? ?? (??: ?)
-
+      timeout: 1800 # 세션 타임아웃 (1800초)
 
 logging:
   level:
@@ -35,3 +46,6 @@ logging:
         type:
           descriptor:
             sql: DEBUG
+
+
+

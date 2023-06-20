@@ -58,11 +58,11 @@ a { text-decoration: none; color: black; }
 
 /** 영화 정보 시작 **/
 .movie-detail-title {
-    font-size: 50px;
+    font-size: 30px;
     display : grid;
     align-items : center;
     text-align: center;
-    margin-top: 110px;
+    margin-top: 105px;
 }
 
 .movie-detail {

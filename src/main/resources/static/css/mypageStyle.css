@@ -2,9 +2,6 @@
 @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
 @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
 /
-body{
-margin:0 auto;
-}
 /* body, table, div, p ,span{font-family:'Nanum Gothic';} */
 body, table, div, p ,span{font-family:'Noto Sans KR';}
 
@@ -12,20 +9,16 @@ a{
 text-decoration: none;
 color:#333;
 }
-#con{
-width:100%;
-height: 100vh;
-background-color:#f5f1ee;
-background-image:url("img/bg.jpg");
-background-position: center center;
-background-repeat: no-repeat;
-background-size:cover;
-padding:0;
-}
-#mypage{
-width:600px;
-height: 600px;
+
+body{
 margin:0 auto;
+background-color:#f5f1ee;
+}
+
+#mypage{
+margin:0 auto;
+display:flex;
+justify-content: center;
 /* position: relative; */
 /* background:#ddd; */
 }
@@ -35,15 +28,29 @@ border-radius: 10px;
 padding:50px;
 background: #fff;
 text-align: center;
-position: absolute;
-top:50%;
-left:50%;
-transform: translate(-50%, -50%);
+    min-width: max-content;
+    top: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 .login{
 font-size:25px;
 font-weight: 900;
 color:#333;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.form-row label {
+    min-width: 100px;
+    text-align: right;
+    margin-right: 10px;
 }
 
 .size{
@@ -53,7 +60,7 @@ padding-left:10px;
 margin-left:10px;
 border:none;
 border-radius: 5px;
-float:right;
+
 }
 .size2{
 width:300px;
@@ -63,7 +70,7 @@ background-color: #f4f4f4;
 margin-left:10px;
 border:none;
 border-radius: 5px;
-float:right;
+
 }
 .btn{
 width:130px;
@@ -105,4 +112,53 @@ padding-left:0px;
 
 .find a:hover{
 color:#707070;
+}
+
+table {
+  border-spacing: 0 5px;
+  background-color: #efefef;
+}
+
+table th, table td {
+    padding: 15px;
+}
+
+.tableBox {
+    margin: 0 auto;
+    border-radius: 4px;
+    width: fit-content;
+    background-color: #efefef;
+    padding: 10px;
+}
+
+
+table thead tr, table thead th {
+    border-top: none;
+    border-bottom: none;
+    text-align: inherit;
+}
+
+table tbody {
+    background: #f8f8f8;
+}
+
+table tbody tr {
+    border-radius: 7px;
+}
+
+table tbody td {
+    background-color: #fff;
+    border: none;
+}
+
+.reserveBtn {
+    margin: 5px;
+    background-color: #fff;
+    color: red;
+    border: 1px solid red;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
 }

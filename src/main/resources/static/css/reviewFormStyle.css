@@ -61,11 +61,11 @@ a { text-decoration: none; color: black; }
 /** 리뷰 작성 시작**/
 
 .movie-review-title {
-    font-size: 50px;
+    font-size: 30px;
     display : grid;
     align-items : center;
     text-align: center;
-    margin-top: 110px;
+    margin-top: 105px;
 }
 
 .movie-review {

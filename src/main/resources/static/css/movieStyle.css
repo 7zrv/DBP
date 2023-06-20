@@ -14,6 +14,10 @@ a { text-decoration: none; color: black; }
 
 /* 네비게이션 바 시작 */
 .navbar {
+    position : fixed;
+    top : 0;
+    width : 100%;
+    z-index:1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -49,6 +53,7 @@ a { text-decoration: none; color: black; }
 
 /* 영화 목록 시작 */
 .movie-list-title {
+    margin-top: 105px;
     font-size: 30px;
     text-align: center;
 }
