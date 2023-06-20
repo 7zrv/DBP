@@ -44,9 +44,9 @@ public class SecurityConfig {
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .invalidSessionUrl("/login") // 세션이 유효하지 않을 경우 리다이렉트할 URL 설정
-                .maximumSessions(1) // 동일한 사용자의 중복 세션 허용 여부 설정
-                .maxSessionsPreventsLogin(false) // 중복 로그인 시 이전 세션 종료 여부 설정
+                .invalidSessionUrl("/login")
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false)
                 .expiredUrl("/login?expired")
                 .and()
 

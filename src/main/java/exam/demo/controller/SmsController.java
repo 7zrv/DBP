@@ -89,7 +89,7 @@ public class SmsController {
         Random rand = new Random();
 
         StringBuilder tempPassword = new StringBuilder();
-        for(int i = 0; i < 8; i++){
+        for(int i = 0; i < 4; i++){
             tempPassword.append(Integer.toString(rand.nextInt(10)));;
         }
 
@@ -100,7 +100,6 @@ public class SmsController {
         message.setTo(member.getPhoneNumber()); // 전달받은 전화번호를 수신번호로 설정합니다.
         message.setText("[졸업시켜조] 임시 비밀번호는 ["+tempPassword+"] 입니다. 로그인후 비밀번호를 변경해주세요");
 
-
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
         System.out.println(response);
 
@@ -108,25 +107,6 @@ public class SmsController {
         return "login"; // 비밀번호를 찾은 후에 보여줄 페이지의 Thymeleaf 템플릿 이름을 반환합니다.
     }
 
-
-   /* @PostMapping("/movies/reservation/confirm")
-    public SingleMessageSentResponse sendReserveSms(ReservationDto reservationDto, Principal principal) throws IOException {
-
-        Reservation reservation = reservationService.createReserve(reservationDto, principal);
-        Member member = memberService.getMemberByMemberId(reservation.getMemberId());
-
-        Message message = new Message();
-        message.setFrom("01051636609");
-        message.setTo(member.getPhoneNumber()); // 전달받은 전화번호를 수신번호로 설정합니다.
-        message.setText("[예매정보]\n "+reservation.getReserveId()+"\n "+reservation.getTheaterName()+" \n "+reservation.getScreenroomName()+" \n "+reservation.getMovieName()+" \n "+reservation.getSeatInfo()+" \n"+reservation.getStartTime()+"");
-
-        SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
-        System.out.println(response);
-
-        return response;
-    }
-
-    */
 
     @PostMapping("/send/reserve/sms")
     public SingleMessageSentResponse sendReserveSms(HttpSession session) throws IOException {
